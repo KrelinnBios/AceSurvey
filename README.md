@@ -1,6 +1,13 @@
 # AceSurvey
 
-面向无性恋社群的基本信息调查问卷与问卷卡片生成工具。
+<p align="center">
+  <img src="asexual-flag.svg" width="160" alt="Asexual pride flag">
+</p>
+
+<p align="center">
+  <strong>AceSurvey</strong><br>
+  面向无性恋社群的基本信息调查问卷与问卷卡片生成工具
+</p>
 
 - 项目类型：静态网站
 - 在线访问：<https://acesurvey.pages.dev/>
