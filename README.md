@@ -2,7 +2,7 @@
 
 面向无性恋社群的基本信息调查问卷与问卷卡片生成工具。
 
-在线访问：<https://ace-survey.pages.dev/>
+在线访问：<https://acesurvey.pages.dev/>
 
 ## 简介
 
