@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>无性恋社群·基本信息调查问卷</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=ZCOOL+QingKe+HuangYou&display=swap"
+    rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: #f9f5ff;
+      font-family: 'Noto Serif SC', serif;
+      color: #2c1c42;
+      overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+
+    /* 柔光背景 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 70%, rgba(192, 132, 252, 0.07) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    html.in-qq body::before {
+      position: absolute;
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      max-width: 540px;
+      margin: 0 auto;
+      padding: 24px 18px 80px;
+    }
+
+    /* header */
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 12px 0 8px;
+    }
+
+    .ace-symbol {
+      font-size: 48px;
+      letter-spacing: 8px;
+      display: inline-block;
+      animation: gentleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .header h1 {
+      font-family: 'ZCOOL QingKe HuangYou', cursive;
+      font-size: 24px;
+      font-weight: 400;
+      background: linear-gradient(135deg, #7c3aed, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 3px;
+      margin: 8px 0 6px;
+    }
+
+    .sub {
+      font-size: 12px;
+      color: #988bc7;
+      border-top: 1px solid #e2d9f5;
+      display: inline-block;
+      padding-top: 8px;
+    }
+
+    /* 问卷卡片 */
+    .form-card {
+      background: white;
+      border-radius: 28px;
+      padding: 20px 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 20px rgba(99, 60, 156, 0.05);
+      border: 1px solid #ede5ff;
+      transition: all 0.2s;
+    }
+
+    .q-number {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: #a78bfa;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .q-label {
+      font-size: 17px;
+      font-weight: 600;
+      color: #2a1a45;
+      line-height: 1.4;
+      margin-bottom: 16px;
+      padding-right: 6px;
+    }
+
+    /* 选项组 */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fcfaff;
+      border: 1px solid #e7dfef;
+      border-radius: 60px;
+      padding: 10px 18px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .radio-option:active {
+      background: #f3edff;
+      transform: scale(0.98);
+    }
+
+    .radio-option input[type="radio"] {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #b9a9e0;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"]:checked {
+      border-color: #8b5cf6;
+      background-color: #8b5cf6;
+      box-shadow: inset 0 0 0 3px white;
+    }
+
+    .radio-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: #332155;
+      line-height: 1.3;
+    }
+
+    .radio-option:has(input:checked) {
+      border-color: #c4b0ff;
+      background: #f7f2ff;
+    }
+
+    /* 文本框 */
+    textarea,
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      background: #fefcff;
+      border: 1px solid #e6ddf7;
+      border-radius: 20px;
+      font-family: 'Noto Serif SC', monospace;
+      font-size: 14px;
+      padding: 14px 16px;
+      color: #2c1c42;
+      resize: vertical;
+      transition: 0.2s;
+    }
+
+    /* 移除number输入框的上下箭头（加减按钮） */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    textarea:focus,
+    input:focus {
+      border-color: #a78bfa;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+    }
+
+    .age-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .age-input-wrapper input[type="number"] {
+      width: 100px;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .char-hint {
+      font-size: 11px;
+      color: #aa9fcc;
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    /* 按钮 */
+    .btn-export {
+      width: 100%;
+      background: linear-gradient(98deg, #8b5cf6, #c084fc);
+      border: none;
+      border-radius: 60px;
+      padding: 16px 0;
+      font-family: 'ZCOOL QingKe HuangYou', cursive;
+      font-size: 18px;
+      letter-spacing: 3px;
+      color: white;
+      font-weight: 400;
+      box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .btn-export:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .export-hint {
+      font-size: 12px;
+      color: #aa9cc7;
+      text-align: center;
+      margin-top: 12px;
+      line-height: 1.6;
+    }
+
+    .github-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: fit-content;
+      margin: 10px auto 0;
+      font-size: 12px;
+      line-height: 16px;
+      color: #b8acd6;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .github-link:hover {
+      color: #8b5cf6;
+    }
+
+    .github-link svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    .github-link span {
+      display: block;
+      line-height: 16px;
+    }
+
+    /* 输出卡片样式 (截图书写) */
+    #output-card {
+      display: none;
+      background: white;
+      border-radius: 32px;
+      padding: 28px 24px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.1);
+      font-family: 'Noto Serif SC', serif;
+    }
+
+    #output-card.export-fix,
+    #output-card.export-fix * {
+      letter-spacing: 0 !important;
+      word-spacing: 0 !important;
+    }
+
+    .oc-header {
+      text-align: center;
+      border-bottom: 2px solid #f0e9ff;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+    }
+
+    /* 截图卡片标题使用实色，避免渐变导致 html2canvas 渲染透明 */
+    .oc-title {
+      font-family: 'ZCOOL QingKe HuangYou', cursive;
+      font-size: 22px;
+      font-weight: 400;
+      color: #5b21b6;
+      letter-spacing: 2px;
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      text-shadow: none;
+    }
+
+    .oc-item {
+      margin-bottom: 20px;
+      border-left: 3px solid #d9cafc;
+      padding-left: 14px;
+    }
+
+    .oc-question {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6b4e9e;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .oc-answer {
+      font-size: 14px;
+      color: #2c1c42;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .oc-footer {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 10px;
+      color: #b7a7df;
+      letter-spacing: 1px;
+    }
+
+    /* 加载遮罩 */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #c084fc;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      color: #f2ecff;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #2d1f4e;
+      color: #f2ecff;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-size: 13px;
+      z-index: 999;
+      transition: transform 0.25s ease;
+      white-space: nowrap;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .qq-preview {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .qq-preview.show {
+      display: flex;
+    }
+
+    .qq-preview-content {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .qq-preview-img {
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 100%;
+      display: block;
+      border-radius: 18px;
+      border: 1px solid #eee6ff;
+      background: #ffffff;
+    }
+
+    .qq-preview-tip {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 13px;
+      color: rgba(242, 236, 255, 0.92);
+      letter-spacing: 1px;
+      line-height: 1.6;
+      user-select: none;
+    }
+
+    /* 辅助隐藏 */
+    .hidden-other {
+      display: none;
+    }
+
+    /* 移动端优化 + 防止自动滚动干扰 */
+    input,
+    textarea,
+    .radio-option {
+      touch-action: manipulation;
+    }
+
+    textarea {
+      max-height: 280px;
+      transition: height 0.05s ease;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="ace-symbol">🖤🤍💜</div>
+      <h1>无性恋社群·基本信息调查问卷</h1>
+      <div class="sub">请如实填写，所有回答均保密</div>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q1</div>
+      <div class="q-label">你的无性恋谱系类型是？</div>
+      <div class="radio-group" id="ace-type-group">
+        <label class="radio-option">
+          <input type="radio" name="ace_type" value="无性恋（Asexual）">
+          <span class="radio-text">无性恋（Asexual）</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="ace_type" value="灰性恋（Graysexual）">
+          <span class="radio-text">灰性恋（Greysexual/Graysexual）</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="ace_type" value="半性恋（Demisexual）">
+          <span class="radio-text">半性恋（Demisexual）</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="ace_type" value="仍在探索中">
+          <span class="radio-text">仍在探索中，不确定</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="ace_type" value="other_ace">
+          <span class="radio-text">其他类型 ↓</span>
+        </label>
+      </div>
+      <textarea id="ace_type_other" rows="2" placeholder="请具体说明……"
+        style="min-height: 65px; margin-top: 8px;"></textarea>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q2</div>
+      <div class="q-label">你的年龄？</div>
+      <div class="age-input-wrapper">
+        <input type="number" id="age" min="1" max="99" inputmode="numeric">
+        <span class="age-unit">岁</span>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q3</div>
+      <div class="q-label">你是什么时候发现自己是无性恋谱系的？</div>
+      <textarea id="q3" rows="3" placeholder="可以讲讲你意识到这件事的年龄、契机、经历……"></textarea>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q4</div>
+      <div class="q-label">为什么觉得自己是这种类型？</div>
+      <textarea id="q4" rows="3" placeholder="可以结合你的感受、经历或对这种类型定义的理解来说明……"></textarea>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q5</div>
+      <div class="q-label">谈谈你对无性恋谱系的了解。</div>
+      <textarea id="q5" rows="4" placeholder="比如对 Ace 谱系的认知、相关术语、社群文化，或你是如何了解这一身份的……"></textarea>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q6</div>
+      <div class="q-label">你对性行为持什么态度？</div>
+      <div class="radio-group" id="sex-attitude-group">
+        <label class="radio-option">
+          <input type="radio" name="sex_attitude" value="性厌恶/性排斥（Sex-averse/Sex-repulsed）">
+          <span class="radio-text">性厌恶/排斥（Sex-Averse/Repulsed）</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="sex_attitude" value="性无感（Sex-indifferent）">
+          <span class="radio-text">性无感（Sex-Indifferent）</span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="sex_attitude" value="性积极/性友好（Sex-positive/Sex-favorable）">
+          <span class="radio-text">性积极/友好（Sex-Positive/Favorable）</span>
+        </label>
+      </div>
+      <textarea id="q6" rows="3" placeholder="进一步展开你的态度、想法或体验……" style="min-height: 70px;"></textarea>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q7</div>
+      <div class="q-label">如何看待西方政治正确、白左与 LGBT 运动？</div>
+      <textarea id="q7" rows="4" placeholder="这是一个开放性问题，欢迎表达你真实的看法……"></textarea>
+    </div>
+
+    <div class="form-card">
+      <div class="q-number">Q8</div>
+      <div class="q-label">如果通过审核，你期待在社群里获得什么体验？</div>
+      <textarea id="q8" rows="3" placeholder="比如认同感、友谊、情感支持、资讯，或者只是想找到同类……"></textarea>
+    </div>
+
+    <div class="submit-area">
+      <button class="btn-export" id="exportBtn">生成图片</button>
+      <p class="export-hint">内容会自动保存到浏览器，退出不用担心丢失<br>点击后生成完整问卷卡片，下载保存即可</p>
+      <a class="github-link" href="https://github.com/KrelinnBios/Ace-Survey" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+        <span>GitHub</span>
+      </a>
+    </div>
+
+    <div id="output-card"></div>
+  </div>
+
+  <div class="loading-overlay" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">正在绘制卡片…</div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <div class="qq-preview" id="qqPreview">
+    <div class="qq-preview-content">
+      <img class="qq-preview-img" id="qqPreviewImg" alt="问卷卡片图片">
+      <div class="qq-preview-tip">长按图片可转发或保存</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // DOM 元素
+      const loadingOverlay = document.getElementById('loading');
+      const toastEl = document.getElementById('toast');
+      const exportBtn = document.getElementById('exportBtn');
+      const aceTypeOtherTextarea = document.getElementById('ace_type_other');
+      const aceTypeRadios = document.querySelectorAll('input[name="ace_type"]');
+      const ageInput = document.getElementById('age');
+      const q3Input = document.getElementById('q3');
+      const q4Input = document.getElementById('q4');
+      const q5Input = document.getElementById('q5');
+      const q6Textarea = document.getElementById('q6');
+      const q7Input = document.getElementById('q7');
+      const q8Input = document.getElementById('q8');
+      const sexAttitudeRadios = document.querySelectorAll('input[name="sex_attitude"]');
+      const qqPreview = document.getElementById('qqPreview');
+      const qqPreviewImg = document.getElementById('qqPreviewImg');
+      let resultObjectUrl = null;
+      let forceScrollTopUntil = 0;
+
+      // 辅助函数：提示消息
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        setTimeout(() => toastEl.classList.remove('show'), 2500);
+      }
+
+      function isInQQ() {
+        const ua = navigator.userAgent || '';
+        return /QQ\//i.test(ua) || /MQQBrowser/i.test(ua);
+      }
+
+      function setupQQFocusFix() {
+        if (!isInQQ()) return;
+
+        var scrollY = 0;
+        var locked = false;
+        var activeInput = null;
+        var focusSeq = 0;
+        var touchStartY = 0;
+        var ensureTimer = 0;
+        var prevHtmlOverflow = '';
+        var prevHtmlHeight = '';
+        var prevHtmlOverscrollY = '';
+        var prevBodyOverscrollY = '';
+
+        function getViewHeight() {
+          var vv = window.visualViewport;
+          return vv && vv.height ? vv.height : window.innerHeight;
+        }
+
+        function applyBodyTop() {
+          document.body.style.top = -scrollY + 'px';
+        }
+
+        function lockBody() {
+          if (locked) return;
+          locked = true;
+          scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+
+          prevHtmlOverflow = document.documentElement.style.overflow;
+          prevHtmlHeight = document.documentElement.style.height;
+          prevHtmlOverscrollY = document.documentElement.style.overscrollBehaviorY;
+          prevBodyOverscrollY = document.body.style.overscrollBehaviorY;
+
+          document.documentElement.style.overflow = 'hidden';
+          document.documentElement.style.height = '100%';
+          document.documentElement.style.overscrollBehaviorY = 'none';
+          document.body.style.overscrollBehaviorY = 'none';
+
+          document.body.style.position = 'fixed';
+          applyBodyTop();
+          document.body.style.left = '0';
+          document.body.style.right = '0';
+          document.body.style.width = '100%';
+        }
+
+        function unlockBody() {
+          if (!locked) return;
+          locked = false;
+
+          document.body.style.position = '';
+          document.body.style.top = '';
+          document.body.style.left = '';
+          document.body.style.right = '';
+          document.body.style.width = '';
+
+          document.documentElement.style.overflow = prevHtmlOverflow;
+          document.documentElement.style.height = prevHtmlHeight;
+          document.documentElement.style.overscrollBehaviorY = prevHtmlOverscrollY;
+          document.body.style.overscrollBehaviorY = prevBodyOverscrollY;
+
+          var targetY = Date.now() < forceScrollTopUntil ? 0 : scrollY;
+          window.scrollTo(0, targetY);
+        }
+
+        function ensureVisible(target) {
+          if (!locked || !target) return;
+          var rect = target.getBoundingClientRect();
+          var vh = getViewHeight();
+          var padding = 12;
+          var nextY = scrollY;
+
+          if (rect.bottom > vh - padding) {
+            nextY = nextY + (rect.bottom - (vh - padding));
+          } else if (rect.top < padding) {
+            nextY = nextY - (padding - rect.top);
+          } else {
+            return;
+          }
+
+          scrollY = Math.max(0, nextY);
+          applyBodyTop();
+        }
+
+        function scheduleEnsure(target) {
+          if (ensureTimer) clearTimeout(ensureTimer);
+          ensureTimer = setTimeout(function () {
+            ensureTimer = 0;
+            ensureVisible(target);
+          }, 80);
+        }
+
+        document.addEventListener('touchstart', function (e) {
+          touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        document.addEventListener('touchmove', function (e) {
+          if (!locked) return;
+          var t = e.target;
+          if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+          var dy = touchStartY - e.touches[0].clientY;
+          touchStartY = e.touches[0].clientY;
+          scrollY = Math.max(0, scrollY + dy);
+          applyBodyTop();
+        }, { passive: true });
+
+        document.addEventListener('input', function (e) {
+          if (!locked) return;
+          if (!activeInput) return;
+          if (e.target !== activeInput) return;
+          scheduleEnsure(activeInput);
+        }, true);
+
+        if (window.visualViewport && window.visualViewport.addEventListener) {
+          window.visualViewport.addEventListener('resize', function () {
+            if (!locked) return;
+            scheduleEnsure(activeInput);
+          });
+        }
+
+        window.addEventListener('focusin', function (e) {
+          var target = e.target;
+          if (!target || !(target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+          focusSeq = focusSeq + 1;
+          activeInput = target;
+          lockBody();
+          scheduleEnsure(target);
+          setTimeout(function () { ensureVisible(target); }, 160);
+          setTimeout(function () { ensureVisible(target); }, 360);
+        }, true);
+
+        window.addEventListener('focusout', function (e) {
+          var target = e.target;
+          if (!target || !(target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+          var seq = focusSeq;
+          setTimeout(function () {
+            if (seq !== focusSeq) return;
+            var ae = document.activeElement;
+            if (ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA')) {
+              activeInput = ae;
+              if (!locked) lockBody();
+              scheduleEnsure(ae);
+              return;
+            }
+            if (activeInput === target) activeInput = null;
+            unlockBody();
+          }, 180);
+        }, true);
+      }
+
+      function isFirefox() {
+        const ua = navigator.userAgent || '';
+        return /Firefox\//i.test(ua);
+      }
+
+      async function waitForFonts(timeoutMs) {
+        const ms = typeof timeoutMs === 'number' ? timeoutMs : 1500;
+        try {
+          if (document.fonts && document.fonts.ready) {
+            await Promise.race([
+              document.fonts.ready,
+              new Promise(resolve => setTimeout(resolve, ms))
+            ]);
+          }
+        } catch (e) { }
+      }
+
+      function computeExportScale() {
+        const dpr = window.devicePixelRatio || 1;
+        if (isFirefox()) {
+          return Math.min(3, Math.max(2, dpr * 1.2));
+        }
+        return Math.min(4, Math.max(2.8, dpr * 1.8));
+      }
+
+      function revokeResultUrl() {
+        if (resultObjectUrl) {
+          try { URL.revokeObjectURL(resultObjectUrl); } catch (e) { }
+          resultObjectUrl = null;
+        }
+      }
+
+      function showQQPreview(imgUrl) {
+        if (!qqPreview || !qqPreviewImg) return;
+        qqPreviewImg.src = imgUrl;
+        qqPreview.classList.add('show');
+      }
+
+      function hideQQPreview() {
+        if (!qqPreview || !qqPreviewImg) return;
+        qqPreview.classList.remove('show');
+        setTimeout(() => { qqPreviewImg.src = ''; }, 30);
+      }
+
+      if (qqPreview) {
+        qqPreview.addEventListener('click', function (e) {
+          if (e.target === qqPreview) hideQQPreview();
+        });
+      }
+
+      setupQQFocusFix();
+      if (isInQQ()) {
+        try { document.documentElement.classList.add('in-qq'); } catch (e) {}
+      }
+
+      // 自动保存相关
+      const STORAGE_KEY = 'ace_survey_draft';
+      let saveTimer = null;
+      let autosavePausedUntil = 0;
+
+      function saveFormData() {
+        try {
+          const data = {
+            ace_type: document.querySelector('input[name="ace_type"]:checked')?.value || '',
+            ace_type_other: aceTypeOtherTextarea.value,
+            age: ageInput.value,
+            q3: q3Input.value,
+            q4: q4Input.value,
+            q5: q5Input.value,
+            sex_attitude: document.querySelector('input[name="sex_attitude"]:checked')?.value || '',
+            q6: q6Textarea.value,
+            q7: q7Input.value,
+            q8: q8Input.value
+          };
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+          console.error('保存失败:', e);
+        }
+      }
+
+      function loadFormData() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (!saved) return;
+          const data = JSON.parse(saved);
+
+          if (data.ace_type) {
+            const radio = document.querySelector(`input[name="ace_type"][value="${data.ace_type}"]`);
+            if (radio) {
+              radio.checked = true;
+              toggleOtherField();
+            }
+          }
+          if (data.ace_type_other) aceTypeOtherTextarea.value = data.ace_type_other;
+          if (data.age) ageInput.value = data.age;
+          if (data.q3) q3Input.value = data.q3;
+          if (data.q4) q4Input.value = data.q4;
+          if (data.q5) q5Input.value = data.q5;
+          if (data.sex_attitude) {
+            const radio = document.querySelector(`input[name="sex_attitude"][value="${data.sex_attitude}"]`);
+            if (radio) radio.checked = true;
+          }
+          if (data.q6) q6Textarea.value = data.q6;
+          if (data.q7) q7Input.value = data.q7;
+          if (data.q8) q8Input.value = data.q8;
+
+          // 重新计算文本框高度
+          if (!isInQQ()) {
+            document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+          }
+        } catch (e) {
+          console.error('加载失败:', e);
+        }
+      }
+
+      function clearSavedData() {
+        try {
+          if (saveTimer) {
+            clearTimeout(saveTimer);
+            saveTimer = null;
+          }
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (e) {
+          console.error('清除保存失败:', e);
+        }
+      }
+
+      function resetForm() {
+        try {
+          // 重置单选按钮
+          document.querySelectorAll('input[name="ace_type"]').forEach(radio => radio.checked = false);
+          document.querySelectorAll('input[name="sex_attitude"]').forEach(radio => radio.checked = false);
+
+          // 重置文本框和数字输入
+          aceTypeOtherTextarea.value = '';
+          ageInput.value = '';
+          q3Input.value = '';
+          q4Input.value = '';
+          q5Input.value = '';
+          q6Textarea.value = '';
+          q7Input.value = '';
+          q8Input.value = '';
+
+          // 隐藏「其他类型」文本域
+          toggleOtherField();
+
+          // 重新计算文本框高度
+          if (!isInQQ()) {
+            document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+          }
+        } catch (e) {
+          console.error('重置表单失败:', e);
+        }
+      }
+
+      function debounceSave() {
+        if (isExporting) return;
+        if (autosavePausedUntil && Date.now() < autosavePausedUntil) return;
+        if (saveTimer) clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveFormData, 500);
+      }
+
+      // 控制「其他类型」文本域的显示/隐藏 (选中other时显示，否则隐藏)
+      function toggleOtherField() {
+        const otherRadio = document.querySelector('input[name="ace_type"][value="other_ace"]');
+        if (otherRadio && otherRadio.checked) {
+          aceTypeOtherTextarea.style.display = 'block';
+        } else {
+          aceTypeOtherTextarea.style.display = 'none';
+        }
+      }
+
+      // 为所有ace_type radio添加change事件
+      aceTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+          toggleOtherField();
+          debounceSave();
+        });
+      });
+      // 初始状态
+      toggleOtherField();
+
+      // 为所有输入框添加自动保存事件
+      [aceTypeOtherTextarea, ageInput, q3Input, q4Input, q5Input, q6Textarea, q7Input, q8Input].forEach(el => {
+        el.addEventListener('input', debounceSave);
+        el.addEventListener('change', debounceSave);
+      });
+      sexAttitudeRadios.forEach(radio => {
+        radio.addEventListener('change', debounceSave);
+      });
+
+      // 页面加载时恢复数据
+      loadFormData();
+
+      // ========== 年龄输入框彻底去掉箭头，并严格限制1-99，仅允许数字 ==========
+      // 限制输入：仅允许数字，且值自动约束在 1-99 之间
+      function sanitizeAge(value) {
+        if (value === '' || value === null || value === undefined) return '';
+        let num = parseInt(value, 10);
+        if (isNaN(num)) return '';
+        if (num < 1) num = 1;
+        if (num > 99) num = 99;
+        return num.toString();
+      }
+
+      function handleAgeInput(e) {
+        let raw = e.target.value;
+        // 去除任何非数字字符（保留数字）
+        let cleaned = raw.replace(/[^\d]/g, '');
+        if (cleaned === '') {
+          e.target.value = '';
+          return;
+        }
+        let intVal = parseInt(cleaned, 10);
+        if (isNaN(intVal)) {
+          e.target.value = '';
+          return;
+        }
+        // 限制范围1-99
+        if (intVal < 1) intVal = 1;
+        if (intVal > 99) intVal = 99;
+        e.target.value = intVal;
+      }
+
+      function handleAgeBlur(e) {
+        let val = e.target.value.trim();
+        if (val === '') return;
+        let num = parseInt(val, 10);
+        if (isNaN(num)) {
+          e.target.value = '';
+          return;
+        }
+        if (num < 1) e.target.value = 1;
+        if (num > 99) e.target.value = 99;
+      }
+
+      // 绑定事件（覆盖原生的change，增强限制）
+      ageInput.addEventListener('input', handleAgeInput);
+      ageInput.addEventListener('blur', handleAgeBlur);
+      // 防止键盘上下键改变数值（通过阻止箭头按键的默认行为可选，但隐藏了按钮，上下键依然会增减，为了彻底避免微调，阻止keydown的ArrowUp/ArrowDown）
+      ageInput.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+        }
+      });
+
+      // 原有change限制保留额外安全处理
+      ageInput.addEventListener('change', function () {
+        let val = this.value.trim();
+        if (val === '') return;
+        let num = parseInt(val, 10);
+        if (isNaN(num)) this.value = '';
+        else if (num < 1) this.value = 1;
+        else if (num > 99) this.value = 99;
+      });
+
+      // 自适应文本框高度
+      let resizeTimer = null;
+      function autoResizeTextarea(ta) {
+        if (!ta) return;
+        if (isInQQ()) return;
+        if (resizeTimer) clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (!ta || !ta.style) return;
+          ta.style.height = 'auto';
+          let newHeight = Math.min(ta.scrollHeight, 260);
+          ta.style.height = newHeight + 'px';
+        }, 12);
+      }
+
+      if (!isInQQ()) {
+        document.querySelectorAll('textarea').forEach(ta => {
+          ta.addEventListener('input', function () { autoResizeTextarea(this); });
+          autoResizeTextarea(ta);
+        });
+      }
+
+      // 获取radio的完整文本（用于Q6，以及其他可能通用，但主要用专门函数）
+      function getRadioFullLabel(name) {
+        const radios = document.querySelectorAll(`input[name="${name}"]`);
+        for (let radio of radios) {
+          if (radio.checked) {
+            const parent = radio.closest('.radio-option');
+            if (parent) {
+              const span = parent.querySelector('.radio-text');
+              return span ? span.innerText.trim() : radio.value;
+            }
+            return radio.value;
+          }
+        }
+        return null;
+      }
+
+      // 获取Q1完整答案
+      function getAceTypeFullAnswer() {
+        const selectedRadio = document.querySelector('input[name="ace_type"]:checked');
+        if (!selectedRadio) return null;
+        const isOther = selectedRadio.value === 'other_ace';
+        const otherText = aceTypeOtherTextarea.value.trim();
+        if (isOther) {
+          const baseLabel = "其他类型";
+          const detail = otherText ? `：${otherText}` : '（未具体说明）';
+          return baseLabel + detail;
+        } else {
+          const parent = selectedRadio.closest('.radio-option');
+          if (parent) {
+            const span = parent.querySelector('.radio-text');
+            return span ? span.innerText.trim() : selectedRadio.value;
+          }
+          return selectedRadio.value;
+        }
+      }
+
+      // 获取Q6完整答案
+      function getSexAttitudeFull() {
+        let attitudeLabel = '';
+        for (let radio of sexAttitudeRadios) {
+          if (radio.checked) {
+            const parent = radio.closest('.radio-option');
+            if (parent) {
+              const span = parent.querySelector('.radio-text');
+              attitudeLabel = span ? span.innerText.trim() : radio.value;
+            } else {
+              attitudeLabel = radio.value;
+            }
+            break;
+          }
+        }
+        const extraText = q6Textarea.value.trim();
+        let result = attitudeLabel ? attitudeLabel : '';
+        if (extraText) {
+          result = result ? `${result}\n\n补充：${extraText}` : `详细描述：${extraText}`;
+        }
+        if (!attitudeLabel && !extraText) return '（未作答）';
+        return result || '（未填写）';
+      }
+
+      function getTextareaValue(elem, fallback = '（未填写）') {
+        const val = elem ? elem.value.trim() : '';
+        return val || fallback;
+      }
+
+      function getAgeFull() {
+        const ageVal = ageInput.value.trim();
+        if (!ageVal) return null;
+        const num = parseInt(ageVal, 10);
+        if (isNaN(num)) return null;
+        if (num < 1 || num > 99) return null;
+        return `${num} 岁`;
+      }
+
+      // 构建卡片数据
+      function buildFullContent() {
+        const q1Text = "Q1 你的无性恋谱系类型是？";
+        const q2Text = "Q2 你的年龄？";
+        const q3Text = "Q3 你是什么时候发现自己是无性恋谱系的？";
+        const q4Text = "Q4 为什么觉得自己是这种类型？";
+        const q5Text = "Q5 谈谈你对无性恋谱系的了解。";
+        const q6Text = "Q6 你对性行为持什么态度？";
+        const q7Text = "Q7 如何看待西方政治正确、白左与 LGBT 运动？";
+        const q8Text = "Q8 如果通过审核，你期待在社群里获得什么体验？";
+
+        const aceAnswer = getAceTypeFullAnswer();
+        const ageAnswer = getAgeFull();
+        const q3Answer = getTextareaValue(q3Input);
+        const q4Answer = getTextareaValue(q4Input);
+        const q5Answer = getTextareaValue(q5Input);
+        const q6Answer = getSexAttitudeFull();
+        const q7Answer = getTextareaValue(q7Input);
+        const q8Answer = getTextareaValue(q8Input);
+
+        if (!aceAnswer) return { error: '请选择无性恋类型' };
+        if (!ageAnswer) return { error: '请填写有效年龄' };
+
+        const items = [
+          { q: q1Text, a: aceAnswer },
+          { q: q2Text, a: ageAnswer },
+          { q: q3Text, a: q3Answer },
+          { q: q4Text, a: q4Answer },
+          { q: q5Text, a: q5Answer },
+          { q: q6Text, a: q6Answer },
+          { q: q7Text, a: q7Answer },
+          { q: q8Text, a: q8Answer }
+        ];
+        return { items, error: null };
+      }
+
+      // 防XSS
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (c) {
+          return c;
+        });
+      }
+
+      // 渲染卡片html
+      function renderOutputCard(items) {
+        const outputDiv = document.getElementById('output-card');
+        if (!outputDiv) return;
+        let innerHtml = `
+        <div class="oc-header">
+          <div style="font-size: 32px; margin-bottom: 6px;">🖤🤍💜</div>
+          <div class="oc-title">无性恋社群·基本信息调查问卷</div>
+          <div style="font-size: 10px; color: #b5a2dc; margin-top: 6px;">自我认同 · 真诚回声</div>
+        </div>
+      `;
+        for (let it of items) {
+          innerHtml += `
+          <div class="oc-item">
+            <div class="oc-question">${escapeHtml(it.q)}</div>
+            <div class="oc-answer">${escapeHtml(it.a).replace(/\n/g, '<br>')}</div>
+          </div>
+        `;
+        }
+        innerHtml += `<div class="oc-footer">ACE 光谱 · 拥抱真实自我</div>`;
+        outputDiv.innerHTML = innerHtml;
+      }
+
+      // 稳定滚动（避免软键盘干扰截图）
+      function stabilizeScroll() {
+        if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+          document.activeElement.blur();
+        }
+        forceScrollTopUntil = Date.now() + 1200;
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 10);
+      }
+
+      let isExporting = false;
+
+      async function exportImage() {
+        if (isExporting) {
+          showToast('正在处理中，请稍候...');
+          return;
+        }
+        isExporting = true;
+        autosavePausedUntil = Date.now() + 5000;
+        if (saveTimer) {
+          clearTimeout(saveTimer);
+          saveTimer = null;
+        }
+        stabilizeScroll();
+
+        const { items, error } = buildFullContent();
+        if (error) {
+          showToast(error);
+          isExporting = false;
+          return;
+        }
+
+        renderOutputCard(items);
+        const cardElement = document.getElementById('output-card');
+        if (!cardElement) {
+          isExporting = false;
+          return;
+        }
+
+        // 准备截图
+        cardElement.style.display = 'block';
+        cardElement.style.position = 'fixed';
+        cardElement.style.left = '-9999px';
+        cardElement.style.top = '0';
+        cardElement.style.width = '400px';
+        cardElement.style.backgroundColor = '#ffffff';
+        cardElement.style.borderRadius = '32px';
+        cardElement.style.boxShadow = '0 0 0 1px #eae2fc';
+
+        loadingOverlay.classList.add('show');
+
+        try {
+          await waitForFonts();
+          const needExportFix = isFirefox();
+          if (needExportFix) cardElement.classList.add('export-fix');
+          const cardHeight = Math.ceil(cardElement.getBoundingClientRect().height || 0);
+          const maxCanvasDim = 8192;
+          const sizeCap = cardHeight > 0 ? (maxCanvasDim / Math.max(400, cardHeight)) : 1;
+          const exportScale = Math.max(1, Math.min(computeExportScale(), sizeCap));
+
+          const canvas = await new Promise((resolve, reject) => {
+            setTimeout(async () => {
+              try {
+                const result = await html2canvas(cardElement, {
+                  scale: exportScale,
+                  backgroundColor: '#ffffff',
+                  logging: false,
+                  useCORS: false,
+                  width: 400,
+                  windowWidth: 400,
+                });
+                resolve(result);
+              } catch (err) {
+                reject(err);
+              }
+            }, 180);
+          });
+
+          loadingOverlay.classList.remove('show');
+
+          // 重置卡片隐藏
+          cardElement.style.display = 'none';
+          cardElement.classList.remove('export-fix');
+          cardElement.style.position = '';
+          cardElement.style.left = '';
+          cardElement.style.top = '';
+          cardElement.style.width = '';
+          cardElement.style.backgroundColor = '';
+          cardElement.style.borderRadius = '';
+          cardElement.style.boxShadow = '';
+
+          revokeResultUrl();
+
+          const inQQ = isInQQ();
+          let imgUrl = '';
+
+          if (inQQ) {
+            imgUrl = canvas.toDataURL('image/png');
+          } else {
+            try {
+              if (canvas.toBlob) {
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
+                if (blob) {
+                  imgUrl = URL.createObjectURL(blob);
+                  resultObjectUrl = imgUrl;
+                }
+              }
+            } catch (e) { }
+            if (!imgUrl) imgUrl = canvas.toDataURL('image/png');
+          }
+
+          if (!inQQ) {
+            try {
+              const link = document.createElement('a');
+              link.download = 'ace_community_survey.png';
+              link.href = imgUrl;
+              document.body.appendChild(link);
+              link.click();
+              link.remove();
+            } catch (e) { }
+            setTimeout(revokeResultUrl, 8000);
+          } else {
+            showQQPreview(imgUrl);
+          }
+
+          clearSavedData();
+          resetForm();
+
+          showToast(inQQ ? '图片已生成，长按图片保存' : '图片已生成');
+        } catch (err) {
+          console.error(err);
+          loadingOverlay.classList.remove('show');
+          try {
+            cardElement.style.display = 'none';
+            cardElement.classList.remove('export-fix');
+            cardElement.style.position = '';
+            cardElement.style.left = '';
+            cardElement.style.top = '';
+          } catch (e) { }
+          showToast('生成失败，可稍后重试');
+        } finally {
+          isExporting = false;
+        }
+      }
+
+      exportBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        exportImage();
+      });
+
+      // 额外处理：确保年龄字段不能超出范围，且不能有E等无效字符
+      ageInput.addEventListener('beforeinput', function (e) {
+        if (e.inputType === 'insertText' && e.data) {
+          if (!/^\d+$/.test(e.data) && e.data !== '') {
+            e.preventDefault();
+          }
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
