@@ -36,6 +36,6 @@ SPDX-License-Identifier: CC-BY-4.0
 
 可参考以下格式：
 
-> 内容来源：Ace Survey（https://acesurvey.pages.dev/），作者 KrelinnBios  
-> 许可协议：CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）  
+> 内容来源：Ace Survey（https://acesurvey.pages.dev/），作者 KrelinnBios
+> 许可协议：CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）
 > 修改说明：如有修改，请注明修改内容
