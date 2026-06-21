@@ -1,7 +1,7 @@
 # AceSurvey
 
 <p align="center">
-  <img src="asexual-flag.svg" width="160" alt="Asexual pride flag">
+  <img src="asexual-flag.svg" width="128" alt="Asexual pride flag">
 </p>
 
 <p align="center">
