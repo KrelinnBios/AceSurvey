@@ -1,7 +1,7 @@
 # AceSurvey
 
 <p align="center">
-  <img src="logo.svg" width="128" alt="AceSurvey logo">
+  <img src="icon/logo.svg" width="128" alt="AceSurvey logo">
 </p>
 
 <p align="center">
