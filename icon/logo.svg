@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" role="img" aria-labelledby="title desc">
+  <title id="title">AceSurvey</title>
+  <desc id="desc">A note-style icon with asexual pride flag colors.</desc>
+  <defs>
+    <path id="note-shape" d="M29 14h39l15 15v62a8 8 0 0 1-8 8H29a8 8 0 0 1-8-8V22a8 8 0 0 1 8-8z"/>
+    <linearGradient id="ace-flag" x1="0" y1="14" x2="0" y2="99" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#000000"/>
+      <stop offset=".25" stop-color="#000000"/>
+      <stop offset=".25" stop-color="#A3A3A3"/>
+      <stop offset=".5" stop-color="#A3A3A3"/>
+      <stop offset=".5" stop-color="#FFFFFF"/>
+      <stop offset=".75" stop-color="#FFFFFF"/>
+      <stop offset=".75" stop-color="#800080"/>
+      <stop offset="1" stop-color="#800080"/>
+    </linearGradient>
+    <mask id="outer-note-stroke-only" maskUnits="userSpaceOnUse" x="0" y="0" width="108" height="108">
+      <rect width="108" height="108" fill="#ffffff"/>
+      <use href="#note-shape" fill="#000000"/>
+    </mask>
+  </defs>
+
+  <use href="#note-shape" fill="none" stroke="#111111" stroke-width="3" stroke-opacity=".85" stroke-linejoin="round" mask="url(#outer-note-stroke-only)"/>
+  <use href="#note-shape" fill="url(#ace-flag)"/>
+  <path d="M68 14v15h15z" fill="#D8D1DE"/>
+  <path d="M34 47h30M34 61h36M34 75h24" fill="none" stroke="#1A171F" stroke-opacity=".42" stroke-width="4" stroke-linecap="round"/>
+  <path d="M34 88h30" fill="none" stroke="#FFFFFF" stroke-opacity=".5" stroke-width="4" stroke-linecap="round"/>
+</svg>
