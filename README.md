@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://acesurvey.pages.dev/"><img src="https://img.shields.io/badge/在线访问-acesurvey.pages.dev-2f6f73?style=flat-square" alt="在线访问"></a>
-  <img src="https://img.shields.io/badge/代码-MIT-1f5f9c?style=flat-square" alt="代码许可 MIT">
+  <img src="https://img.shields.io/badge/许可-MIT-1f5f9c?style=flat-square" alt="MIT License">
   <img src="https://img.shields.io/badge/构建-纯静态·无需构建-8a8f98?style=flat-square" alt="纯静态">
 </p>
 
