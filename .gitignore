@@ -1,0 +1,10 @@
+# Local agent/editor configuration
+.agents/
+.claude/
+.codex/
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
