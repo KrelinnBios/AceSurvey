@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AceSurvey 已迁移到新域名</title>
+  <meta name="description" content="AceSurvey 旧域名已停止作为内容入口，请前往新域名继续访问。">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f9f5ff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#171020" media="(prefers-color-scheme: dark)">
+  <link rel="icon" href="icon/logo.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://survey.prismself.vip/">
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f9f5ff;
+      --panel: #ffffff;
+      --text: #2c1c42;
+      --muted: #67567d;
+      --border: rgba(124, 58, 237, 0.18);
+      --accent: #7c3aed;
+      --accent-hover: #6d28d9;
+      --shadow: 0 18px 48px rgba(44, 28, 66, 0.14);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #171020;
+        --panel: #241832;
+        --text: #f3e8ff;
+        --muted: #d5c2e8;
+        --border: rgba(192, 132, 252, 0.28);
+        --accent: #8b5cf6;
+        --accent-hover: #a78bfa;
+        --shadow: 0 22px 54px rgba(0, 0, 0, 0.55);
+      }
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      margin: 0;
+      min-height: 100dvh;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+      line-height: 1.7;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 12% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 62%),
+        radial-gradient(ellipse 64% 80% at 88% 100%, rgba(192, 132, 252, 0.1) 0%, transparent 62%);
+      pointer-events: none;
+    }
+
+    main {
+      position: relative;
+      width: min(100%, 560px);
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand img {
+      width: 28px;
+      height: 28px;
+    }
+
+    h1 {
+      margin: 22px 0 10px;
+      font-size: clamp(1.65rem, 7vw, 2.35rem);
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .primary-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .primary-link:hover,
+    .primary-link:focus-visible,
+    .primary-link:active {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 520px) {
+      body {
+        padding: 16px;
+      }
+
+      main {
+        padding: 22px;
+      }
+
+      .primary-link {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main aria-labelledby="pageTitle">
+    <div class="brand">
+      <img src="icon/logo.svg" alt="" aria-hidden="true">
+      AceSurvey
+    </div>
+    <h1 id="pageTitle">AceSurvey 已迁移到新域名</h1>
+    <p>旧域名已停止作为内容入口，请前往新域名继续访问。建议更新浏览器书签，避免下次进入旧地址。</p>
+    <div class="actions">
+      <a class="primary-link" href="https://survey.prismself.vip/">前往新域名</a>
+    </div>
+  </main>
+</body>
+
+</html>
