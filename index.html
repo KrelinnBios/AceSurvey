@@ -3,9 +3,30 @@
 
 <head>
   <meta charset="UTF-8">
+  <script>
+    (() => {
+      const oldHost = 'acesurvey.pages.dev';
+      const movedPath = '/domain-moved.html';
+      if (window.location.hostname.toLowerCase() === oldHost && window.location.pathname !== movedPath) {
+        window.location.replace(movedPath);
+      }
+    })();
+  </script>
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>无性恋社群·基本信息调查问卷</title>
+  <meta name="description" content="面向无性恋社群的静态问卷与卡片生成工具，用于填写基础信息、梳理自我经验，并在本地生成适合保存或分享的问卷卡片。">
+  <meta name="theme-color" content="#7c3aed">
+  <link rel="icon" href="icon/logo.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://survey.prismself.vip/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AceSurvey">
+  <meta property="og:title" content="无性恋社群·基本信息调查问卷">
+  <meta property="og:description" content="面向无性恋社群的静态问卷与卡片生成工具，用于填写基础信息、梳理自我经验，并在本地生成适合保存或分享的问卷卡片。">
+  <meta property="og:url" content="https://survey.prismself.vip/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:image" content="https://survey.prismself.vip/screenshots/PixPin_2026-06-30_23-52-56.png">
+  <meta name="twitter:card" content="summary_large_image">
   <link
     href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=ZCOOL+QingKe+HuangYou&display=swap"
     rel="stylesheet">
