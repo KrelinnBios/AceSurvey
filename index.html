@@ -159,6 +159,20 @@
       padding-right: 6px;
     }
 
+    .q-label::after {
+      content: '必答';
+      display: inline-block;
+      margin-left: 8px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      background: #f3edff;
+      color: #8254d1;
+      font-size: 10px;
+      font-weight: 600;
+      line-height: 1.4;
+      vertical-align: 2px;
+    }
+
     /* 选项组 */
     .radio-group {
       display: flex;
@@ -669,6 +683,17 @@
       const sexAttitudeRadios = document.querySelectorAll('input[name="sex_attitude"]');
       const qqPreview = document.getElementById('qqPreview');
       const qqPreviewImg = document.getElementById('qqPreviewImg');
+
+      // 所有编号题均为必答；Q1 的“其他类型”说明按选择动态处理。
+      [ageInput, q3Input, q4Input, q5Input, q7Input, q8Input].forEach(el => {
+        el.required = true;
+      });
+      [...aceTypeRadios, ...sexAttitudeRadios].forEach(radio => {
+        radio.required = true;
+      });
+      document.getElementById('ace-type-group').setAttribute('aria-required', 'true');
+      document.getElementById('sex-attitude-group').setAttribute('aria-required', 'true');
+
       let resultObjectUrl = null;
       let forceScrollTopUntil = 0;
 
@@ -999,8 +1024,12 @@
         const otherRadio = document.querySelector('input[name="ace_type"][value="other_ace"]');
         if (otherRadio && otherRadio.checked) {
           aceTypeOtherTextarea.style.display = 'block';
+          aceTypeOtherTextarea.required = true;
+          aceTypeOtherTextarea.setAttribute('aria-required', 'true');
         } else {
           aceTypeOtherTextarea.style.display = 'none';
+          aceTypeOtherTextarea.required = false;
+          aceTypeOtherTextarea.removeAttribute('aria-required');
         }
       }
 
@@ -1183,6 +1212,62 @@
         return `${num} 岁`;
       }
 
+      function getFirstIncompleteQuestion() {
+        const selectedAceType = [...aceTypeRadios].find(radio => radio.checked);
+        if (!selectedAceType) {
+          return { message: '请回答 Q1：选择无性恋谱系类型', target: aceTypeRadios[0] };
+        }
+        if (selectedAceType.value === 'other_ace' && !aceTypeOtherTextarea.value.trim()) {
+          return { message: '请补充说明 Q1 的其他类型', target: aceTypeOtherTextarea };
+        }
+        if (!getAgeFull()) {
+          return { message: '请回答 Q2：填写有效年龄', target: ageInput };
+        }
+
+        const textQuestions = [
+          { number: 'Q3', input: q3Input },
+          { number: 'Q4', input: q4Input },
+          { number: 'Q5', input: q5Input }
+        ];
+        for (const question of textQuestions) {
+          if (!question.input.value.trim()) {
+            return { message: `请回答 ${question.number}`, target: question.input };
+          }
+        }
+
+        const selectedSexAttitude = [...sexAttitudeRadios].find(radio => radio.checked);
+        if (!selectedSexAttitude) {
+          return { message: '请回答 Q6：选择对性行为的态度', target: sexAttitudeRadios[0] };
+        }
+        if (!q7Input.value.trim()) {
+          return { message: '请回答 Q7', target: q7Input };
+        }
+        if (!q8Input.value.trim()) {
+          return { message: '请回答 Q8', target: q8Input };
+        }
+        return null;
+      }
+
+      function goToIncompleteQuestion(question) {
+        if (!question || !question.target) return;
+        const card = question.target.closest('.form-card');
+        if (card) {
+          const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          try {
+            card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+          } catch (e) {
+            card.scrollIntoView();
+          }
+        }
+        setTimeout(() => {
+          try {
+            question.target.focus({ preventScroll: true });
+          } catch (e) {
+            question.target.focus();
+          }
+        }, 320);
+      }
+
       // 构建卡片数据
       function buildFullContent() {
         const q1Text = "Q1 你的无性恋谱系类型是？";
@@ -1273,6 +1358,14 @@
           showToast('正在处理中，请稍候...');
           return;
         }
+
+        const incompleteQuestion = getFirstIncompleteQuestion();
+        if (incompleteQuestion) {
+          showToast(incompleteQuestion.message);
+          goToIncompleteQuestion(incompleteQuestion);
+          return;
+        }
+
         isExporting = true;
         autosavePausedUntil = Date.now() + 5000;
         if (saveTimer) {
