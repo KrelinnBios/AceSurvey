@@ -41,8 +41,20 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    :root {
+      --page-bg: #fafbfd;
+      --page-glow-primary: rgba(72, 88, 116, 0.045);
+      --page-glow-secondary: rgba(124, 58, 237, 0.04);
+    }
+
+    :root[data-theme="dark"] {
+      --page-bg: #101318;
+      --page-glow-primary: rgba(72, 88, 116, 0.1);
+      --page-glow-secondary: rgba(113, 78, 160, 0.08);
+    }
+
     body {
-      background: #f9f5ff;
+      background: var(--page-bg);
       font-family: 'Noto Serif SC', serif;
       color: #2c1c42;
       overflow-x: hidden;
@@ -54,8 +66,8 @@
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 40%),
-        radial-gradient(circle at 90% 70%, rgba(192, 132, 252, 0.07) 0%, transparent 45%);
+      background: radial-gradient(circle at 10% 20%, var(--page-glow-primary) 0%, transparent 40%),
+        radial-gradient(circle at 90% 70%, var(--page-glow-secondary) 0%, transparent 45%);
       pointer-events: none;
       z-index: 0;
     }
@@ -513,6 +525,9 @@
       outline: none;
     }
   </style>
+
+  <link rel="stylesheet" href="assets/theme.css">
+  <script src="assets/theme.js"></script>
 </head>
 
 <body>
