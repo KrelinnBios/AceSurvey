@@ -8,7 +8,7 @@
   <meta name="description" content="AceSurvey 旧域名已停止作为内容入口，请前往新域名继续访问。">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#f9f5ff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#171020" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#101318" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="icon/logo.svg" type="image/svg+xml">
   <link rel="canonical" href="https://survey.prismself.vip/">
   <style>
@@ -22,18 +22,22 @@
       --accent: #7c3aed;
       --accent-hover: #6d28d9;
       --shadow: 0 18px 48px rgba(44, 28, 66, 0.14);
+      --glow-primary: rgba(139, 92, 246, 0.1);
+      --glow-secondary: rgba(192, 132, 252, 0.1);
     }
 
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #171020;
-        --panel: #241832;
-        --text: #f3e8ff;
-        --muted: #d5c2e8;
-        --border: rgba(192, 132, 252, 0.28);
-        --accent: #8b5cf6;
-        --accent-hover: #a78bfa;
+        --bg: #101318;
+        --panel: #191d24;
+        --text: #ecebf0;
+        --muted: #bbb8c2;
+        --border: rgba(151, 129, 190, 0.22);
+        --accent: #7455b7;
+        --accent-hover: #8060bf;
         --shadow: 0 22px 54px rgba(0, 0, 0, 0.55);
+        --glow-primary: rgba(72, 88, 116, 0.1);
+        --glow-secondary: rgba(113, 78, 160, 0.08);
       }
     }
 
@@ -65,8 +69,8 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(ellipse 70% 60% at 12% 0%, rgba(139, 92, 246, 0.1) 0%, transparent 62%),
-        radial-gradient(ellipse 64% 80% at 88% 100%, rgba(192, 132, 252, 0.1) 0%, transparent 62%);
+        radial-gradient(ellipse 70% 60% at 12% 0%, var(--glow-primary) 0%, transparent 62%),
+        radial-gradient(ellipse 64% 80% at 88% 100%, var(--glow-secondary) 0%, transparent 62%);
       pointer-events: none;
     }
 
