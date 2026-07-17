@@ -1,0 +1,83 @@
+name: Cache bust theme assets
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - assets/theme.css
+      - assets/theme.js
+      - .github/workflows/cache-bust-theme-assets.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cache-bust-theme-assets-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  update-html-resource-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Add version query to theme assets
+        run: |
+          node <<'NODE'
+          const { execFileSync } = require('node:child_process');
+          const { readFileSync, writeFileSync } = require('node:fs');
+          const { createHash } = require('node:crypto');
+
+          const assets = [
+            'assets/theme.css',
+            'assets/theme.js'
+          ];
+          const hash = createHash('sha256');
+          for (const asset of assets) {
+            hash.update(asset);
+            hash.update('\0');
+            hash.update(readFileSync(asset));
+            hash.update('\0');
+          }
+          const VERSION = hash.digest('hex').slice(0, 12);
+
+          const files = execFileSync('git', ['ls-files', '*.html'], { encoding: 'utf8' })
+            .trim()
+            .split(/\r?\n/)
+            .filter(Boolean);
+
+          let changed = 0;
+          for (const file of files) {
+            const before = readFileSync(file, 'utf8');
+            let after = before;
+
+            after = after.replace(/(href=["'])([^"']*theme\.css)(?:\?v=[^"']*)?(["'])/g, `$1$2?v=${VERSION}$3`);
+            after = after.replace(/(src=["'])([^"']*theme\.js)(?:\?v=[^"']*)?(["'])/g, `$1$2?v=${VERSION}$3`);
+
+            if (after !== before) {
+              writeFileSync(file, after);
+              changed += 1;
+              console.log('updated:', file);
+            }
+          }
+
+          console.log(`version: ${VERSION}`);
+          console.log(`changed files: ${changed}`);
+          NODE
+
+      - name: Commit changes
+        run: |
+          if git diff --quiet; then
+            echo "No HTML resource references needed updates."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html' '**/*.html'
+          git commit -m "chore: 更新主题资源版本"
+          git push
