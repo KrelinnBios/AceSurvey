@@ -340,6 +340,26 @@
       line-height: 16px;
     }
 
+    .site-footer {
+      position: relative;
+      z-index: 2;
+      max-width: 540px;
+      margin: -60px auto 0;
+      padding: 0 18px 24px;
+      text-align: center;
+      font-size: 11px;
+      color: #b8acd6;
+    }
+
+    .site-footer a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-footer a:hover {
+      color: #8b5cf6;
+    }
+
     /* 输出卡片样式 (截图书写) */
     #output-card {
       display: none;
@@ -650,6 +670,10 @@
 
     <div id="output-card"></div>
   </div>
+
+  <footer class="site-footer">
+    Hosted on <a href="https://pages.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare Pages</a>.
+  </footer>
 
   <div class="loading-overlay" id="loading">
     <div class="spinner"></div>
