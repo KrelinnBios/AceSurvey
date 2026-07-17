@@ -141,11 +141,23 @@
   color: #aaa4b5;
 }
 
+:root[data-theme="dark"] .site-footer {
+  color: #aaa4b5;
+}
+
 :root[data-theme="dark"] .github-link {
   color: #aaa4b5;
 }
 
+:root[data-theme="dark"] .site-footer a {
+  color: #aaa4b5;
+}
+
 :root[data-theme="dark"] .github-link:hover {
+  color: #aa8be8;
+}
+
+:root[data-theme="dark"] .site-footer a:hover {
   color: #aa8be8;
 }
 
