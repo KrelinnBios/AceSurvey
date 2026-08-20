@@ -55,7 +55,7 @@ AceSurvey 是一个面向无性恋社群的静态问卷工具，用于填写基�
 
 本项目依据 [MIT License](./LICENSE) 发布，允许使用、修改、分发和商业使用，但须保留许可证与版权声明。
 
-第三方软件、内容和外部服务不因被本项目引用、加载或展示而自动纳入 MIT 许可，具体见 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md)。
+第三方软件、内容和外部服务不因被本项目引用、加载或展示而自动纳入 MIT 许可；访问者填写、记录或导出的个人内容也不属于项目预设内容，具体见 [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md)。
 
 ## 反馈与贡献
 
