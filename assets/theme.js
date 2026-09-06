@@ -46,8 +46,23 @@
     document.body.appendChild(button);
   }
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build);
-  else build();
+  function moveExportHint() {
+    var hint = document.querySelector('.submit-area .export-hint');
+    var header = document.querySelector('.header');
+    if (!hint || !header) return;
+
+    header.appendChild(hint);
+    hint.style.margin = '12px auto 0';
+    hint.style.maxWidth = '420px';
+  }
+
+  function setup() {
+    build();
+    moveExportHint();
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
+  else setup();
 
   if (window.matchMedia) {
     var mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
