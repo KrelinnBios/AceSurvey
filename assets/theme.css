@@ -141,6 +141,14 @@
   color: #aaa4b5;
 }
 
+.export-hint {
+  display: none !important;
+}
+
+.submit-area {
+  margin-top: 32px;
+}
+
 .site-footer {
   margin-top: 32px !important;
 }
