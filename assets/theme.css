@@ -141,6 +141,10 @@
   color: #aaa4b5;
 }
 
+.site-footer {
+  margin-top: 32px !important;
+}
+
 :root[data-theme="dark"] .site-footer {
   color: #aaa4b5;
 }
