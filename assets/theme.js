@@ -46,19 +46,20 @@
     document.body.appendChild(button);
   }
 
-  function moveExportHint() {
+  function simplifyExportHint() {
     var hint = document.querySelector('.submit-area .export-hint');
-    var header = document.querySelector('.header');
-    if (!hint || !header) return;
+    var exportBtn = document.getElementById('exportBtn');
+    if (!hint || !exportBtn || !exportBtn.parentNode) return;
 
-    header.appendChild(hint);
-    hint.style.margin = '12px auto 0';
-    hint.style.maxWidth = '420px';
+    hint.textContent = '自动保存 · 点击生成问卷卡片';
+    exportBtn.parentNode.insertBefore(hint, exportBtn);
+    hint.style.margin = '0 0 12px';
+    hint.style.maxWidth = 'none';
   }
 
   function setup() {
     build();
-    moveExportHint();
+    simplifyExportHint();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
