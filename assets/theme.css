@@ -146,11 +146,11 @@
 }
 
 .submit-area {
-  margin-top: 32px;
+  margin-top: 10px;
 }
 
 .site-footer {
-  margin-top: 32px !important;
+  margin-top: 14px !important;
 }
 
 :root[data-theme="dark"] .site-footer {
