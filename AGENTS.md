@@ -31,7 +31,7 @@ Cloudflare Pages 等静态托管平台和浏览器会对 CSS、JS、图片等本
 4. 3 处版本号必须保持完全一致。
 5. 确认无误后，再执行 `git commit / push`。
 
-### 为什么必须这样做
+### 原因说明
 
 - HTML 通过 `<meta http-equiv="Cache-Control">` 已设为不缓存，但 CSS / JS / 图片仍会被浏览器缓存。
 - 只有资源 URL 发生变化（即 query string `?v=` 取值不同）时，浏览器才会强制重新下载对应资源。
