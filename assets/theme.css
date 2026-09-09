@@ -180,21 +180,21 @@
 
 /* ── Scrollbar ── */
 :root {
-  --scrollbar-thumb: #c4b5fd;
-  --scrollbar-thumb-hover: #7c3aed;
+  --survey-scrollbar-source: #7c3aed;
+  --survey-scrollbar-thumb: color-mix(in srgb, var(--survey-scrollbar-source) 38%, white);
+  --survey-scrollbar-thumb-hover: var(--survey-scrollbar-source);
 }
 
 :root[data-theme="dark"] {
-  --scrollbar-thumb: #b9a6e0;
-  --scrollbar-thumb-hover: #8968cc;
+  --survey-scrollbar-source: #8968cc;
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--scrollbar-thumb) transparent;
+  scrollbar-color: var(--survey-scrollbar-thumb) transparent;
 }
 
-/* 避免标准属性覆盖支持伪元素的浏览器中的悬停和拖动样式。 */
+/* 避免标准属性覆盖自定义滚动条伪元素样式。 */
 @supports selector(::-webkit-scrollbar) {
   * {
     scrollbar-width: auto;
@@ -203,28 +203,28 @@
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background: transparent;
+  width: 6px !important;
+  height: 6px !important;
+  background: transparent !important;
 }
 
 *::-webkit-scrollbar-track,
 *::-webkit-scrollbar-corner {
-  background: transparent;
+  background: transparent !important;
 }
 
 *::-webkit-scrollbar-button {
-  display: none;
+  display: none !important;
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--scrollbar-thumb);
-  border-radius: 999px;
+  background: var(--survey-scrollbar-thumb) !important;
+  border-radius: 999px !important;
 }
 
 *::-webkit-scrollbar-thumb:hover,
 *::-webkit-scrollbar-thumb:active {
-  background: var(--scrollbar-thumb-hover);
+  background: var(--survey-scrollbar-thumb-hover) !important;
 }
 
 @media (max-width: 620px) {
