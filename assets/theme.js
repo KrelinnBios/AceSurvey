@@ -134,7 +134,7 @@
       scrollTimer = setTimeout(function() {
         thumbVisible = false;
         schedule();
-      }, 1500);
+      }, 500);
     }
 
     function endDrag(e) {
@@ -217,7 +217,7 @@
       scrollTimer = setTimeout(function() {
         isScrolling = false;
         root.classList.remove('is-scrolling');
-      }, 1500);
+      }, 500);
     }
 
     window.addEventListener('scroll', showScrollbar, { passive: true });
