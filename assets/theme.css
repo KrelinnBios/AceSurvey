@@ -227,6 +227,34 @@
   background: var(--survey-scrollbar-thumb-hover) !important;
 }
 
+/* 移动端滚动条仅在滑动时显现 */
+@media (hover: none), (pointer: coarse) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  @supports selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+    }
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: transparent !important;
+    transition: background 0.25s ease;
+  }
+
+  html.is-scrolling *::-webkit-scrollbar-thumb {
+    background: var(--survey-scrollbar-thumb) !important;
+  }
+
+  html.is-scrolling * {
+    scrollbar-color: var(--survey-scrollbar-thumb) transparent;
+  }
+}
+
 html.survey-overlay-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
