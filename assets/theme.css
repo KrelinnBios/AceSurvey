@@ -181,14 +181,12 @@
 /* ── Scrollbar ── */
 :root {
   --scrollbar-thumb: #c4b5fd;
-  --scrollbar-thumb-hover: #d8ccff;
-  --scrollbar-thumb-active: #a78bfa;
+  --scrollbar-thumb-hover: #a78bfa;
 }
 
 :root[data-theme="dark"] {
   --scrollbar-thumb: #b9a6e0;
-  --scrollbar-thumb-hover: #cdbef0;
-  --scrollbar-thumb-active: #a58bd6;
+  --scrollbar-thumb-hover: #a58bd6;
 }
 
 * {
@@ -213,10 +211,6 @@
 
 *::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
-}
-
-*::-webkit-scrollbar-thumb:active {
-  background: var(--scrollbar-thumb-active);
 }
 
 @media (max-width: 620px) {
