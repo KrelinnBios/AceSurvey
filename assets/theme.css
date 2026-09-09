@@ -180,15 +180,15 @@
 
 /* ── Scrollbar ── */
 :root {
-  --scrollbar-thumb: #8b5cf6;
-  --scrollbar-thumb-hover: #a678fa;
-  --scrollbar-thumb-active: #7040d6;
+  --scrollbar-thumb: #c4b5fd;
+  --scrollbar-thumb-hover: #d8ccff;
+  --scrollbar-thumb-active: #a78bfa;
 }
 
 :root[data-theme="dark"] {
-  --scrollbar-thumb: #aa8be8;
-  --scrollbar-thumb-hover: #bea7ee;
-  --scrollbar-thumb-active: #8968cc;
+  --scrollbar-thumb: #b9a6e0;
+  --scrollbar-thumb-hover: #cdbef0;
+  --scrollbar-thumb-active: #a58bd6;
 }
 
 * {
