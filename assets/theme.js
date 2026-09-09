@@ -80,6 +80,12 @@
     var dragging = false;
     var dragOffset = 0;
     var pending = false;
+    var isTouchDevice = window.matchMedia && (
+      window.matchMedia('(hover: none)').matches ||
+      window.matchMedia('(pointer: coarse)').matches
+    );
+    var scrollTimer = null;
+    var thumbVisible = false;
 
     function metrics() {
       var se = document.scrollingElement || document.documentElement;
@@ -98,7 +104,14 @@
       var thumbH = Math.max(24, Math.round((m.view / m.scroll) * m.view));
       var track = Math.max(1, m.view - thumbH);
       var top = (m.se.scrollTop / m.max) * track;
-      thumb.hidden = false;
+
+      // 移动端：仅在滚动时显示
+      if (isTouchDevice && !dragging) {
+        thumb.hidden = !thumbVisible;
+      } else {
+        thumb.hidden = false;
+      }
+
       thumb.style.height = thumbH + 'px';
       thumb.style.transform = 'translateY(' + top + 'px)';
       thumb.setAttribute('aria-valuenow', String(Math.round((m.se.scrollTop / m.max) * 100)));
@@ -111,6 +124,17 @@
         pending = false;
         update();
       });
+    }
+
+    function showThumb() {
+      if (!isTouchDevice) return;
+      thumbVisible = true;
+      if (scrollTimer) clearTimeout(scrollTimer);
+      schedule();
+      scrollTimer = setTimeout(function() {
+        thumbVisible = false;
+        schedule();
+      }, 1500);
     }
 
     function endDrag(e) {
@@ -158,6 +182,8 @@
     });
 
     window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('scroll', showThumb, { passive: true });
+    window.addEventListener('touchmove', showThumb, { passive: true });
     window.addEventListener('resize', schedule);
     window.addEventListener('load', schedule);
     if (window.visualViewport) window.visualViewport.addEventListener('resize', schedule);
