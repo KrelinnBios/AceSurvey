@@ -181,12 +181,12 @@
 /* ── Scrollbar ── */
 :root {
   --scrollbar-thumb: #c4b5fd;
-  --scrollbar-thumb-hover: #a78bfa;
+  --scrollbar-thumb-hover: #7c3aed;
 }
 
 :root[data-theme="dark"] {
   --scrollbar-thumb: #b9a6e0;
-  --scrollbar-thumb-hover: #a58bd6;
+  --scrollbar-thumb-hover: #8968cc;
 }
 
 * {
@@ -194,9 +194,18 @@
   scrollbar-color: var(--scrollbar-thumb) transparent;
 }
 
+/* 避免标准属性覆盖支持伪元素的浏览器中的悬停和拖动样式。 */
+@supports selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+}
+
 *::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
+  background: transparent;
 }
 
 *::-webkit-scrollbar-track,
@@ -204,12 +213,17 @@
   background: transparent;
 }
 
+*::-webkit-scrollbar-button {
+  display: none;
+}
+
 *::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
   border-radius: 999px;
 }
 
-*::-webkit-scrollbar-thumb:hover {
+*::-webkit-scrollbar-thumb:hover,
+*::-webkit-scrollbar-thumb:active {
   background: var(--scrollbar-thumb-hover);
 }
 
