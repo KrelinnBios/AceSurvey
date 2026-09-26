@@ -517,6 +517,81 @@
       transform: translateX(-50%) translateY(0);
     }
 
+    /* 问卷使用说明 */
+    html:has(.review-notice[open]) {
+      overflow: hidden;
+    }
+
+    .review-notice {
+      width: calc(100% - 32px);
+      max-width: 460px;
+      max-height: calc(100vh - 32px);
+      max-height: calc(100dvh - 32px);
+      margin: auto;
+      padding: 24px;
+      border: 1px solid #ede5ff;
+      border-radius: 28px;
+      background: white;
+      color: #2c1c42;
+      box-shadow: 0 24px 64px rgba(44, 28, 66, 0.2);
+    }
+
+    .review-notice[open] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .review-notice::backdrop {
+      background: rgba(24, 16, 36, 0.6);
+    }
+
+    .review-notice h2 {
+      flex-shrink: 0;
+      margin-bottom: 16px;
+      font-size: 22px;
+      line-height: 1.4;
+      color: #5b21b6;
+    }
+
+    .review-notice-content {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      font-size: 14px;
+      line-height: 1.85;
+    }
+
+    .review-notice-content p + p {
+      margin-top: 14px;
+    }
+
+    .review-notice form {
+      flex-shrink: 0;
+      margin-top: 20px;
+    }
+
+    .review-notice .btn-export {
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .review-notice .btn-export:focus {
+      outline: none;
+    }
+
+    :root[data-theme="dark"] .review-notice {
+      background: #1d1924;
+      color: #ecebf0;
+      border-color: rgba(151, 129, 190, 0.25);
+    }
+
+    :root[data-theme="dark"] .review-notice h2 {
+      color: #c4b0ff;
+    }
+
     /* 辅助隐藏 */
     .hidden-other {
       display: none;
@@ -675,6 +750,24 @@
     <div class="loading-text">正在绘制卡片…</div>
   </div>
   <div class="toast" id="toast"></div>
+
+  <dialog class="review-notice" id="review-notice" aria-labelledby="review-notice-title"
+    aria-describedby="review-notice-content">
+    <h2 id="review-notice-title">问卷使用说明</h2>
+    <div class="review-notice-content" id="review-notice-content">
+      <p>你可以在这里填写无性恋社群问卷，并将回答生成图片，方便保存和发送。</p>
+      <p>答案和草稿仅保存在当前浏览器中，本网页不会将这些内容上传到服务器，也不会自动提交问卷。</p>
+      <p>填写完成后，点击页面底部的“生成图片”按钮，将问卷图片保存到设备。</p>
+      <p><strong>请将保存的问卷图片发回审核群，不接受私信。</strong>发送前，请确认图片中不包含不愿公开的个人信息。</p>
+    </div>
+    <form method="dialog">
+      <button class="btn-export" type="submit" autofocus>我已了解，开始填写</button>
+    </form>
+  </dialog>
+
+  <script>
+    document.getElementById('review-notice').showModal();
+  </script>
 
   <script>
     (function () {
