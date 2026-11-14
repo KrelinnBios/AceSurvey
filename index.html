@@ -22,7 +22,7 @@
   <meta property="og:image" content="https://survey.prismself.vip/screenshots/PixPin_2026-06-30_23-52-56.png">
   <meta name="twitter:card" content="summary_large_image">
   <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=ZCOOL+XiaoWei&display=swap"
     rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
     integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
@@ -39,7 +39,8 @@
       --page-bg: #fafbfd;
       --page-glow-primary: rgba(72, 88, 116, 0.045);
       --page-glow-secondary: rgba(124, 58, 237, 0.04);
-      --ui-font-stack: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      --art-font-stack: 'ZCOOL XiaoWei', 'Noto Serif SC', 'Songti SC', serif;
+      --reading-font-stack: 'Noto Serif SC', 'Songti SC', serif;
     }
 
     :root[data-theme="dark"] {
@@ -102,14 +103,15 @@
     }
 
     .header h1 {
-      font-family: var(--ui-font-stack);
-      font-size: 23px;
-      font-weight: 650;
+      font-family: var(--art-font-stack);
+      font-size: 25px;
+      font-weight: 400;
       background: linear-gradient(135deg, #7c3aed, #c084fc);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.8px;
+      line-height: 1.45;
       margin: 8px 0 6px;
     }
 
@@ -290,11 +292,11 @@
       border: none;
       border-radius: 60px;
       padding: 16px 0;
-      font-family: var(--ui-font-stack);
-      font-size: 17px;
-      letter-spacing: 0.6px;
+      font-family: var(--art-font-stack);
+      font-size: 21px;
+      letter-spacing: 1.5px;
       color: white;
-      font-weight: 650;
+      font-weight: 400;
       box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
       cursor: pointer;
       transition: transform 0.1s, opacity 0.2s;
@@ -374,7 +376,7 @@
       width: 100%;
       box-shadow: none;
       color: #292139;
-      font-family: var(--ui-font-stack);
+      font-family: var(--reading-font-stack);
     }
 
     /* html2canvas 在中英混排 + letter-spacing 时容易出现相邻字符粘连/重叠，
@@ -428,10 +430,10 @@
     }
 
     .oc-title {
-      font-family: var(--ui-font-stack);
-      font-size: 19px;
-      font-weight: 700;
-      line-height: 1.45;
+      font-family: var(--art-font-stack);
+      font-size: 23px;
+      font-weight: 400;
+      line-height: 1.5;
       color: #443058;
       background: none;
       text-shadow: none;
@@ -442,11 +444,11 @@
       font-size: 11px;
       line-height: 1.6;
       color: #9689a6;
-      margin-top: 7px;
+      margin-top: 8px;
     }
 
     .oc-item {
-      margin-bottom: 16px;
+      margin-bottom: 19px;
     }
 
     .oc-question {
@@ -455,38 +457,35 @@
     }
 
     .oc-qnum {
-      display: inline-block;
-      font-size: 11px;
+      display: inline;
+      font-family: var(--reading-font-stack);
+      font-size: 12px;
       font-weight: 700;
       line-height: 1.6;
-      padding: 1px 7px;
-      margin-right: 7px;
-      color: #6e42b8;
-      background: #f1eaff;
-      border-radius: 6px;
-      vertical-align: baseline;
+      margin-right: 8px;
+      color: #8a59c7;
     }
 
     .oc-qtext {
       color: #4a365e;
+      font-family: var(--reading-font-stack);
       font-size: 13px;
-      font-weight: 650;
+      font-weight: 600;
       line-height: 1.6;
       overflow-wrap: anywhere;
     }
 
     .oc-answer {
+      font-family: var(--reading-font-stack);
       font-size: 14px;
       font-weight: 400;
       color: #30263d;
-      line-height: 1.65;
+      line-height: 1.75;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
       word-break: break-word;
-      border: 1px solid #eee8f5;
-      border-radius: 10px;
-      background: #f9f7fc;
-      padding: 10px 12px;
+      border-left: 2px solid #dcc8ef;
+      padding: 4px 0 4px 12px;
     }
 
     .oc-footer {
@@ -685,9 +684,9 @@
       }
 
       .header h1 {
-        font-size: 21px;
-        line-height: 1.35;
-        letter-spacing: 0.3px;
+        font-size: 23px;
+        line-height: 1.45;
+        letter-spacing: 0.6px;
         margin: 6px 0 5px;
       }
 
@@ -766,7 +765,7 @@
 
       .btn-export {
         padding: 14px 0;
-        font-size: 17px;
+        font-size: 19px;
       }
 
       .review-notice {
@@ -807,8 +806,8 @@
       }
 
       .header h1 {
-        font-size: 19px;
-        letter-spacing: 0;
+        font-size: 21px;
+        letter-spacing: 0.3px;
       }
 
       .form-card {
@@ -1020,11 +1019,16 @@
       }
 
       async function waitForFonts(timeoutMs) {
-        const ms = typeof timeoutMs === 'number' ? timeoutMs : 1500;
+        const ms = typeof timeoutMs === 'number' ? timeoutMs : 4000;
         try {
           if (document.fonts && document.fonts.ready) {
+            // The export card is off-screen, so request its display font explicitly.
+            const fontLoad = Promise.all([
+              document.fonts.load('23px "ZCOOL XiaoWei"', '无性恋社群基本信息调查问卷'),
+              document.fonts.load('14px "Noto Serif SC"', '无性恋社群调查问卷')
+            ]);
             await Promise.race([
-              document.fonts.ready,
+              Promise.all([document.fonts.ready, fontLoad]),
               new Promise(resolve => setTimeout(resolve, ms))
             ]);
           }
