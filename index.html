@@ -21,9 +21,8 @@
   <meta property="og:locale" content="zh_CN">
   <meta property="og:image" content="https://survey.prismself.vip/screenshots/PixPin_2026-06-30_23-52-56.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=ZCOOL+XiaoWei&display=swap"
-    rel="stylesheet">
+  <!-- 霞鹜文楷：分包加载，固定版本以保持视觉稳定。 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@1.530.0/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
     integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -39,8 +38,8 @@
       --page-bg: #fafbfd;
       --page-glow-primary: rgba(72, 88, 116, 0.045);
       --page-glow-secondary: rgba(124, 58, 237, 0.04);
-      --art-font-stack: 'ZCOOL XiaoWei', 'Noto Serif SC', 'Songti SC', serif;
-      --reading-font-stack: 'Noto Serif SC', 'Songti SC', serif;
+      --art-font-stack: 'LXGW WenKai', 'Songti SC', 'STKaiti', 'KaiTi', serif;
+      --reading-font-stack: 'LXGW WenKai', 'Songti SC', 'STKaiti', 'KaiTi', serif;
     }
 
     :root[data-theme="dark"] {
@@ -51,7 +50,7 @@
 
     body {
       background: var(--page-bg);
-      font-family: 'Noto Serif SC', serif;
+      font-family: var(--reading-font-stack);
       color: #2c1c42;
       overflow-x: hidden;
       padding-bottom: env(safe-area-inset-bottom, 20px);
@@ -105,7 +104,7 @@
     .header h1 {
       font-family: var(--art-font-stack);
       font-size: 25px;
-      font-weight: 400;
+      font-weight: 500;
       background: linear-gradient(135deg, #7c3aed, #c084fc);
       -webkit-background-clip: text;
       background-clip: text;
@@ -234,7 +233,7 @@
       background: #fefcff;
       border: 1px solid #e6ddf7;
       border-radius: 20px;
-      font-family: 'Noto Serif SC', monospace;
+      font-family: var(--reading-font-stack);
       font-size: 14px;
       padding: 14px 16px;
       color: #2c1c42;
@@ -293,10 +292,10 @@
       border-radius: 60px;
       padding: 16px 0;
       font-family: var(--art-font-stack);
-      font-size: 21px;
-      letter-spacing: 1.5px;
+      font-size: 20px;
+      letter-spacing: 1px;
       color: white;
-      font-weight: 400;
+      font-weight: 500;
       box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
       cursor: pointer;
       transition: transform 0.1s, opacity 0.2s;
@@ -431,8 +430,8 @@
 
     .oc-title {
       font-family: var(--art-font-stack);
-      font-size: 23px;
-      font-weight: 400;
+      font-size: 22px;
+      font-weight: 500;
       line-height: 1.5;
       color: #443058;
       background: none;
@@ -1018,21 +1017,24 @@
         return /Firefox\//i.test(ua);
       }
 
-      async function waitForFonts(timeoutMs) {
-        const ms = typeof timeoutMs === 'number' ? timeoutMs : 4000;
+      async function waitForFonts(exportText = '', timeoutMs = 6500) {
         try {
           if (document.fonts && document.fonts.ready) {
-            // The export card is off-screen, so request its display font explicitly.
+            // Load the actual answers as well as the title before html2canvas measures text.
+            // The CDN splits Chinese glyphs across font subsets.
+            const textToLoad = exportText || '无性恋社群基本信息调查问卷';
             const fontLoad = Promise.all([
-              document.fonts.load('23px "ZCOOL XiaoWei"', '无性恋社群基本信息调查问卷'),
-              document.fonts.load('14px "Noto Serif SC"', '无性恋社群调查问卷')
+              document.fonts.load('14px "LXGW WenKai"', textToLoad),
+              document.fonts.load('500 22px "LXGW WenKai"', textToLoad)
             ]);
             await Promise.race([
               Promise.all([document.fonts.ready, fontLoad]),
-              new Promise(resolve => setTimeout(resolve, ms))
+              new Promise(resolve => setTimeout(resolve, timeoutMs))
             ]);
           }
-        } catch (e) { }
+        } catch (e) {
+          console.warn('字体加载未完成，导出将使用可用的后备字体。', e);
+        }
       }
 
       function computeExportScale() {
@@ -1539,7 +1541,7 @@
         loadingOverlay.classList.add('show');
 
         try {
-          await waitForFonts();
+          await waitForFonts(cardElement.textContent || '');
           const needExportFix = isFirefox();
           if (needExportFix) cardElement.classList.add('export-fix');
           const cardHeight = Math.ceil(cardElement.getBoundingClientRect().height || 0);
