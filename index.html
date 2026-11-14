@@ -365,21 +365,23 @@
       color: #8b5cf6;
     }
 
-    /* 输出卡片样式 (截图书写) */
+    /* 导出图片：淡紫色信笺布局，独立于手机端问卷样式。 */
     #output-card {
       display: none;
-      background: white;
-      border-radius: 24px;
-      padding: 28px 24px 24px;
-      max-width: 420px;
+      position: relative;
       width: 100%;
+      max-width: 420px;
+      padding: 0 24px 26px;
+      overflow: hidden;
+      border: 1px solid #e8dced;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #fcf8ff 0%, #ffffff 32%, #fffefd 100%);
       box-shadow: none;
-      color: #292139;
+      color: #35283e;
       font-family: var(--reading-font-stack);
     }
 
-    /* html2canvas 在中英混排 + letter-spacing 时容易出现相邻字符粘连/重叠，
-       统一关闭字距与词距，避免任意浏览器复现同款问题 */
+    /* html2canvas 对混排文本的额外字距处理不稳定，导出区域统一禁用。 */
     #output-card,
     #output-card * {
       letter-spacing: 0 !important;
@@ -392,12 +394,46 @@
       word-spacing: 0 !important;
     }
 
-    /* Export image: restrained typography, clear information hierarchy. */
     .oc-header {
+      position: relative;
+      padding: 28px 24px 24px;
+      margin: 0 -24px 24px;
+      overflow: hidden;
       text-align: center;
-      padding-bottom: 18px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid #e9e3f3;
+      border-bottom: 1px solid #e9dcf0;
+      background: linear-gradient(135deg, #f6edfc 0%, #fcf7ff 56%, #fffbfd 100%);
+    }
+
+    .oc-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #37313f 0%, #aca3b7 48%, #9b68d3 100%);
+    }
+
+    .oc-header::after {
+      content: '';
+      position: absolute;
+      top: -48px;
+      right: -50px;
+      width: 128px;
+      height: 128px;
+      border: 1px solid #dbc4eb;
+      border-radius: 50%;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .oc-series {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 16px;
+      font-size: 10px;
+      line-height: 1.5;
+      color: #9478aa;
     }
 
     .oc-brand {
@@ -405,8 +441,16 @@
       justify-content: center;
       align-items: center;
       gap: 6px;
-      margin-bottom: 12px;
-      line-height: 1;
+      height: 12px;
+      margin-bottom: 14px;
+    }
+
+    .oc-brand::before,
+    .oc-brand::after {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: #dac9e8;
     }
 
     .oc-brand-dot {
@@ -417,84 +461,143 @@
       border-radius: 50%;
     }
 
-    .oc-brand-dot--black { background: #22202b; }
-    .oc-brand-dot--gray { background: #a7a0b2; }
-    .oc-brand-dot--purple { background: #8b5cf6; }
-
-    .oc-brand-name {
-      margin-left: 5px;
-      color: #81738f;
-      font-size: 10px;
-      font-weight: 700;
-    }
+    .oc-brand-dot--black { background: #332c3b; }
+    .oc-brand-dot--gray { background: #b8afc1; border: 1px solid #a89cb4; }
+    .oc-brand-dot--purple { background: #9871c8; }
 
     .oc-title {
+      position: relative;
+      z-index: 1;
+      margin: 0;
       font-family: var(--art-font-stack);
-      font-size: 22px;
       font-weight: 500;
       line-height: 1.5;
-      color: #443058;
-      background: none;
-      text-shadow: none;
-      margin: 0;
+      color: #5c397b;
+    }
+
+    .oc-title-overline {
+      display: block;
+      font-size: 16px;
+    }
+
+    .oc-title-main {
+      display: block;
+      margin-top: 2px;
+      font-size: 24px;
     }
 
     .oc-subtitle {
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
       font-size: 11px;
       line-height: 1.6;
-      color: #9689a6;
-      margin-top: 8px;
+      color: #9883a9;
+    }
+
+    .oc-divider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 9px;
+      margin: 15px auto 0;
+    }
+
+    .oc-divider::before,
+    .oc-divider::after {
+      content: '';
+      width: 34px;
+      height: 1px;
+      background: #d8c2e8;
+    }
+
+    .oc-divider-gem {
+      display: block;
+      width: 6px;
+      height: 6px;
+      transform: rotate(45deg);
+      background: #a77bd3;
     }
 
     .oc-item {
-      margin-bottom: 19px;
+      margin-bottom: 18px;
+    }
+
+    .oc-item + .oc-item {
+      padding-top: 14px;
+      border-top: 1px dashed #ede3f1;
     }
 
     .oc-question {
-      margin-bottom: 8px;
-      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 9px;
+      line-height: 1.55;
     }
 
     .oc-qnum {
-      display: inline;
-      font-family: var(--reading-font-stack);
+      flex: 0 0 auto;
+      min-width: 27px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid #bd9ed3;
       font-size: 12px;
       font-weight: 700;
       line-height: 1.6;
-      margin-right: 8px;
-      color: #8a59c7;
+      color: #9167b3;
     }
 
     .oc-qtext {
-      color: #4a365e;
-      font-family: var(--reading-font-stack);
-      font-size: 13px;
+      flex: 1;
+      min-width: 0;
+      font-size: 14px;
       font-weight: 600;
       line-height: 1.6;
+      color: #563c67;
       overflow-wrap: anywhere;
     }
 
     .oc-answer {
-      font-family: var(--reading-font-stack);
+      padding: 8px 12px;
+      border-left: 2px solid #c6a7dd;
+      border-radius: 0 9px 9px 0;
+      background: linear-gradient(90deg, #f9f3fc 0%, #fefcfe 100%);
       font-size: 14px;
       font-weight: 400;
-      color: #30263d;
       line-height: 1.75;
+      color: #33283d;
       white-space: pre-wrap;
       overflow-wrap: anywhere;
       word-break: break-word;
-      border-left: 2px solid #dcc8ef;
-      padding: 4px 0 4px 12px;
     }
 
     .oc-footer {
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #eadff0;
       text-align: center;
-      margin-top: 22px;
-      padding-top: 14px;
-      border-top: 1px solid #e9e3f3;
-      font-size: 10px;
-      line-height: 1.5;
-      color: #9689a6;
+      font-size: 11px;
+      line-height: 1.6;
+      color: #9781a7;
+    }
+
+    .oc-footer-motif {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .oc-footer-motif span {
+      display: block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #bfa6d3;
+    }
+
+    .oc-footer-motif span:nth-child(2) {
+      background: #8e65bd;
     }
 
     /* 加载遮罩 */
@@ -1450,34 +1553,43 @@
         });
       }
 
-      // 渲染卡片html
+      // 导出卡片的视觉结构与题目内容分离，避免影响表单数据。
       function renderOutputCard(items) {
         const outputDiv = document.getElementById('output-card');
         if (!outputDiv) return;
         let innerHtml = `
-        <div class="oc-header">
-          <div class="oc-brand">
-            <span class="oc-brand-dot oc-brand-dot--black"></span>
-            <span class="oc-brand-dot oc-brand-dot--gray"></span>
-            <span class="oc-brand-dot oc-brand-dot--purple"></span>
-            <span class="oc-brand-name">ACE SURVEY</span>
+          <div class="oc-header">
+            <div class="oc-series">ACE SURVEY · 个人问卷档案</div>
+            <div class="oc-brand" aria-hidden="true">
+              <span class="oc-brand-dot oc-brand-dot--black"></span>
+              <span class="oc-brand-dot oc-brand-dot--gray"></span>
+              <span class="oc-brand-dot oc-brand-dot--purple"></span>
+            </div>
+            <div class="oc-title">
+              <span class="oc-title-overline">无性恋社群</span>
+              <span class="oc-title-main">基本信息调查问卷</span>
+            </div>
+            <div class="oc-subtitle">自我认同 · 真诚回声</div>
+            <div class="oc-divider" aria-hidden="true"><span class="oc-divider-gem"></span></div>
           </div>
-          <div class="oc-title">无性恋社群·基本信息调查问卷</div>
-          <div class="oc-subtitle">自我认同 · 真诚回声</div>
-        </div>
-      `;
-        for (let it of items) {
+        `;
+        for (const it of items) {
           const m = it.q.match(/^(Q\d+)\s*(.*)$/);
           const qNumHtml = m ? `<span class="oc-qnum">${escapeHtml(m[1])}</span>` : '';
           const qTextHtml = m ? escapeHtml(m[2]) : escapeHtml(it.q);
           innerHtml += `
-          <div class="oc-item">
-            <div class="oc-question">${qNumHtml}<span class="oc-qtext">${qTextHtml}</span></div>
-            <div class="oc-answer">${escapeHtml(it.a).replace(/\n/g, '<br>')}</div>
+            <div class="oc-item">
+              <div class="oc-question">${qNumHtml}<span class="oc-qtext">${qTextHtml}</span></div>
+              <div class="oc-answer">${escapeHtml(it.a).replace(/\n/g, '<br>')}</div>
+            </div>
+          `;
+        }
+        innerHtml += `
+          <div class="oc-footer">
+            <div class="oc-footer-motif" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div>ACE 光谱 · 拥抱真实自我</div>
           </div>
         `;
-        }
-        innerHtml += `<div class="oc-footer">ACE 光谱 · 拥抱真实自我</div>`;
         outputDiv.innerHTML = innerHtml;
       }
 
@@ -1535,7 +1647,7 @@
         cardElement.style.top = '0';
         cardElement.style.width = '400px';
         cardElement.style.backgroundColor = '#ffffff';
-        cardElement.style.borderRadius = '24px';
+        cardElement.style.borderRadius = '28px';
         cardElement.style.boxShadow = 'none';
 
         loadingOverlay.classList.add('show');
