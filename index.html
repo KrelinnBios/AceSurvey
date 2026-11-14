@@ -926,6 +926,7 @@
     <h2 id="review-notice-title">问卷使用说明</h2>
     <div class="review-notice-content" id="review-notice-content">
       <p>您填写的答案仅保存在当前浏览器本地，不会上传至任何服务器，也不会自动提交。</p>
+      <p>未生成图片的填写内容在最后一次修改满 3 天后自动清除；若页面已关闭，将在下次打开时清除。</p>
       <p>填写完成后，请点击“生成图片”保存卡片，再将图片发送至审核群（不接受私信提交）。</p>
       <p>发送前，请确认图片中不含您不愿公开的个人信息。</p>
     </div>
@@ -1016,10 +1017,49 @@
 
       // 自动保存相关
       const STORAGE_KEY = 'ace_survey_draft';
+      const DRAFT_EXPIRY_MS = 3 * 24 * 60 * 60 * 1000;
       let saveTimer = null;
+      let expiryTimer = null;
       let autosavePausedUntil = 0;
 
+      function isValidDraftTimestamp(updatedAt) {
+        const now = Date.now();
+        return typeof updatedAt === 'number' && Number.isFinite(updatedAt) &&
+          updatedAt > 0 && updatedAt <= now && now - updatedAt < DRAFT_EXPIRY_MS;
+      }
+
+      function scheduleDraftExpiry(updatedAt) {
+        if (expiryTimer) clearTimeout(expiryTimer);
+        expiryTimer = setTimeout(() => {
+          expiryTimer = null;
+          expireDraftIfNeeded();
+        }, Math.max(0, updatedAt + DRAFT_EXPIRY_MS - Date.now()));
+      }
+
+      function expireDraftIfNeeded() {
+        try {
+          const saved = localStorage.getItem(STORAGE_KEY);
+          if (!saved) {
+            if (expiryTimer) clearTimeout(expiryTimer);
+            expiryTimer = null;
+            return false;
+          }
+          const data = JSON.parse(saved);
+          if (data && isValidDraftTimestamp(data.updatedAt)) {
+            scheduleDraftExpiry(data.updatedAt);
+            return false;
+          }
+        } catch (e) {
+          console.warn('无法读取本地填写记录，将清除无效记录。', e);
+        }
+        // 旧记录没有时间戳，无法判断其保存期限，同样视为过期。
+        clearSavedData();
+        resetForm();
+        return true;
+      }
+
       function saveFormData() {
+        if (expireDraftIfNeeded()) return;
         try {
           const data = {
             ace_type: document.querySelector('input[name="ace_type"]:checked')?.value || '',
@@ -1031,9 +1071,11 @@
             sex_attitude: document.querySelector('input[name="sex_attitude"]:checked')?.value || '',
             q6: q6Textarea.value,
             q7: q7Input.value,
-            q8: q8Input.value
+            q8: q8Input.value,
+            updatedAt: Date.now()
           };
           localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          scheduleDraftExpiry(data.updatedAt);
         } catch (e) {
           console.error('保存失败:', e);
         }
@@ -1044,6 +1086,11 @@
           const saved = localStorage.getItem(STORAGE_KEY);
           if (!saved) return;
           const data = JSON.parse(saved);
+          if (!data || !isValidDraftTimestamp(data.updatedAt)) {
+            clearSavedData();
+            return;
+          }
+          scheduleDraftExpiry(data.updatedAt);
 
           if (data.ace_type) {
             const radio = document.querySelector(`input[name="ace_type"][value="${data.ace_type}"]`);
@@ -1069,6 +1116,7 @@
           document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
         } catch (e) {
           console.error('加载失败:', e);
+          clearSavedData();
         }
       }
 
@@ -1077,6 +1125,10 @@
           if (saveTimer) {
             clearTimeout(saveTimer);
             saveTimer = null;
+          }
+          if (expiryTimer) {
+            clearTimeout(expiryTimer);
+            expiryTimer = null;
           }
           localStorage.removeItem(STORAGE_KEY);
         } catch (e) {
@@ -1150,8 +1202,13 @@
         radio.addEventListener('change', debounceSave);
       });
 
-      // 页面加载时恢复数据
+      // 页面加载时恢复未过期的数据，并在页面重新激活时检查期限。
       loadFormData();
+      window.addEventListener('pageshow', expireDraftIfNeeded);
+      window.addEventListener('focus', expireDraftIfNeeded);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) expireDraftIfNeeded();
+      });
 
       // ========== 年龄输入框彻底去掉箭头，并严格限制1-99，仅允许数字 ==========
       // 限制输入：仅允许数字，且值自动约束在 1-99 之间
