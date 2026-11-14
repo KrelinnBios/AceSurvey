@@ -624,6 +624,167 @@
     textarea:focus {
       outline: none;
     }
+
+    /* Mobile: denser survey layout without affecting the exported #output-card. */
+    @media (max-width: 620px) {
+      .container {
+        padding: 16px 14px 52px;
+      }
+
+      .header {
+        margin-bottom: 14px;
+        padding: 8px 0 4px;
+      }
+
+      .ace-symbol {
+        font-size: 36px;
+        letter-spacing: 5px;
+      }
+
+      .header h1 {
+        font-size: 21px;
+        line-height: 1.35;
+        letter-spacing: 1.5px;
+        margin: 6px 0 5px;
+      }
+
+      .sub {
+        font-size: 11px;
+        padding-top: 7px;
+      }
+
+      .form-card {
+        padding: 16px 14px;
+        margin-bottom: 12px;
+        border-radius: 20px;
+      }
+
+      .q-number {
+        margin-bottom: 6px;
+        letter-spacing: 1.6px;
+      }
+
+      .q-label {
+        font-size: 16px;
+        line-height: 1.45;
+        margin-bottom: 12px;
+        padding-right: 0;
+      }
+
+      .q-label::after {
+        margin-left: 6px;
+        padding: 2px 6px;
+      }
+
+      .radio-group {
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .radio-option {
+        min-height: 44px;
+        padding: 8px 12px;
+        gap: 10px;
+        border-radius: 22px;
+      }
+
+      .radio-text {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      textarea,
+      input[type="text"],
+      input[type="number"] {
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 11px 13px;
+        border-radius: 14px;
+      }
+
+      .age-input-wrapper {
+        gap: 10px;
+      }
+
+      .age-input-wrapper input[type="number"] {
+        width: 84px;
+        font-size: 16px;
+      }
+
+      .optional-note {
+        margin-bottom: 6px;
+      }
+
+      .btn-export {
+        padding: 14px 0;
+        font-size: 17px;
+      }
+
+      .review-notice {
+        width: calc(100% - 28px);
+        max-height: calc(100dvh - 28px);
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .review-notice h2 {
+        margin-bottom: 12px;
+        font-size: 20px;
+      }
+
+      .review-notice-content {
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .review-notice-content p + p {
+        margin-top: 10px;
+      }
+
+      .review-notice form {
+        margin-top: 16px;
+      }
+
+      .review-notice .btn-export {
+        padding: 13px 10px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .container {
+        padding-right: 12px;
+        padding-left: 12px;
+      }
+
+      .header h1 {
+        font-size: 19px;
+        letter-spacing: 0.8px;
+      }
+
+      .form-card {
+        padding: 14px 12px;
+      }
+
+      .q-label {
+        font-size: 15px;
+      }
+
+      .radio-option {
+        padding-right: 10px;
+        padding-left: 10px;
+        gap: 8px;
+      }
+
+      .review-notice {
+        width: calc(100% - 24px);
+        padding: 16px;
+      }
+
+      .review-notice h2 {
+        font-size: 19px;
+      }
+    }
   </style>
 
   <link rel="stylesheet" href="assets/theme.css?v=202609106">
