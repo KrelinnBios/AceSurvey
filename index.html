@@ -21,8 +21,8 @@
   <meta property="og:locale" content="zh_CN">
   <meta property="og:image" content="https://survey.prismself.vip/screenshots/PixPin_2026-06-30_23-52-56.png">
   <meta name="twitter:card" content="summary_large_image">
-  <!-- 霞鹜文楷：分包加载，固定版本以保持视觉稳定。 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@callmebill/lxgw-wenkai-web@1.530.0/style.css">
+  <!-- 霞鹜文楷 GB：分包加载，固定版本以保持视觉稳定。 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.530.0/style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
     integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -38,8 +38,8 @@
       --page-bg: #fafbfd;
       --page-glow-primary: rgba(72, 88, 116, 0.045);
       --page-glow-secondary: rgba(124, 58, 237, 0.04);
-      --art-font-stack: 'LXGW WenKai', 'Songti SC', 'STKaiti', 'KaiTi', serif;
-      --reading-font-stack: 'LXGW WenKai', 'Songti SC', 'STKaiti', 'KaiTi', serif;
+      --art-font-stack: 'LXGW WenKai GB', 'Songti SC', 'STKaiti', 'KaiTi', serif;
+      --reading-font-stack: 'LXGW WenKai GB', 'Songti SC', 'STKaiti', 'KaiTi', serif;
     }
 
     :root[data-theme="dark"] {
@@ -987,8 +987,8 @@
             // The CDN splits Chinese glyphs across font subsets.
             const textToLoad = exportText || '无性恋社群基本信息调查问卷';
             const fontLoad = Promise.all([
-              document.fonts.load('14px "LXGW WenKai"', textToLoad),
-              document.fonts.load('500 22px "LXGW WenKai"', textToLoad)
+              document.fonts.load('14px "LXGW WenKai GB"', textToLoad),
+              document.fonts.load('500 22px "LXGW WenKai GB"', textToLoad)
             ]);
             await Promise.race([
               Promise.all([document.fonts.ready, fontLoad]),

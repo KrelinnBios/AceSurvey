@@ -5,8 +5,7 @@
 ## 第三方软件与资源
 
 - [html2canvas 1.4.1](https://github.com/niklasvh/html2canvas)：`MIT`，通过 cdnjs 加载，用于导出图片。
-- [Noto Serif SC](https://fonts.google.com/noto/specimen/Noto+Serif+SC)：`OFL-1.1`，通过 Google Fonts 加载。
-- [ZCOOL QingKe HuangYou](https://fonts.google.com/specimen/ZCOOL+QingKe+HuangYou)：`OFL-1.1`，通过 Google Fonts 加载。
+- [LXGW WenKai GB（霞鹜文楷 GB）](https://github.com/lxgw/LxgwWenKaiGB)：`OFL-1.1`，通过 jsDelivr 加载 [lxgw-wenkai-gb-web](https://github.com/CMBill/lxgw-wenkai-gb-web) 的分包 Web Font。
 
 上述软件和字体继续适用其上游许可证；它们不会因为被本项目引用而改用 AceSurvey 的 MIT License。
 
@@ -16,7 +15,7 @@ AceSurvey 不提供远程提交接口。访问者填写的回答、浏览器本�
 
 ## 外部服务
 
-页面运行时可能连接 cdnjs 和 Google Fonts 下载脚本或字体。这些服务的可用性、日志处理、隐私政策和服务条款由各自运营方负责。
+页面运行时可能连接 cdnjs 和 jsDelivr 下载脚本或字体。这些服务的可用性、日志处理、隐私政策和服务条款由各自运营方负责。
 
 ## 版本与反馈
 
