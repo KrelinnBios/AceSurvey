@@ -22,10 +22,12 @@
   <meta property="og:image" content="https://survey.prismself.vip/screenshots/PixPin_2026-06-30_23-52-56.png">
   <meta name="twitter:card" content="summary_large_image">
   <!-- 霞鹜文楷 GB：分包加载，固定版本以保持视觉稳定。 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.530.0/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-    integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link id="survey-fonts" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.530.0/style.css"
+    media="print" onload="this.media='all'" onerror="this.dataset.failed='true'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.530.0/style.css">
+  </noscript>
   <style>
     * {
       margin: 0;
@@ -238,7 +240,7 @@
       padding: 14px 16px;
       color: #2c1c42;
       resize: vertical;
-      transition: 0.2s;
+      transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
     }
 
     /* 移除number输入框的上下箭头（加减按钮） */
@@ -955,6 +957,10 @@
       const q7Input = document.getElementById('q7');
       const q8Input = document.getElementById('q8');
       const sexAttitudeRadios = document.querySelectorAll('input[name="sex_attitude"]');
+      const textareas = Array.from(document.querySelectorAll('textarea'));
+      // 恢复草稿前初始化，确保所有待调整文本框在同一帧内处理。
+      const pendingTextareas = new Set();
+      let resizeFrame = null;
 
       // 所有编号题均为必答；Q1 的“其他类型”说明按选择动态处理。
       [ageInput, q3Input, q4Input, q5Input, q7Input, q8Input].forEach(el => {
@@ -980,8 +986,58 @@
         return /Firefox\//i.test(ua);
       }
 
+      // 仅生成图片时加载，复用进行中的请求；失败后允许下一次重试。
+      let html2canvasPromise = null;
+      function loadHtml2canvas() {
+        if (typeof window.html2canvas === 'function') return Promise.resolve(window.html2canvas);
+        if (html2canvasPromise) return html2canvasPromise;
+        html2canvasPromise = new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+          script.integrity = 'sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==';
+          script.crossOrigin = 'anonymous';
+          script.referrerPolicy = 'no-referrer';
+          script.async = true;
+          const timer = setTimeout(() => finish(new Error('图片导出库加载超时')), 15000);
+          function finish(error) {
+            clearTimeout(timer);
+            script.onload = script.onerror = null;
+            if (error) {
+              script.remove();
+              reject(error);
+            } else {
+              resolve(window.html2canvas);
+            }
+          }
+          script.onload = () => finish(typeof window.html2canvas === 'function' ? null : new Error('图片导出库不可用'));
+          script.onerror = () => finish(new Error('图片导出库加载失败'));
+          document.head.appendChild(script);
+        }).catch(error => {
+          html2canvasPromise = null;
+          throw error;
+        });
+        return html2canvasPromise;
+      }
+
       async function waitForFonts(exportText = '', timeoutMs = 6500) {
+        const deadline = Date.now() + timeoutMs;
+        let fontTimer;
         try {
+          // 字体样式异步加载；提前导出时先等样式表，避免误用后备字体。
+          const stylesheet = document.getElementById('survey-fonts');
+          if (stylesheet && stylesheet.media !== 'all' && !stylesheet.dataset.failed) {
+            await new Promise(resolve => {
+              const timer = setTimeout(finish, timeoutMs);
+              function finish() {
+                clearTimeout(timer);
+                stylesheet.removeEventListener('load', finish);
+                stylesheet.removeEventListener('error', finish);
+                resolve();
+              }
+              stylesheet.addEventListener('load', finish);
+              stylesheet.addEventListener('error', finish);
+            });
+          }
           if (document.fonts && document.fonts.ready) {
             // Load the actual answers as well as the title before html2canvas measures text.
             // The CDN splits Chinese glyphs across font subsets.
@@ -992,11 +1048,13 @@
             ]);
             await Promise.race([
               Promise.all([document.fonts.ready, fontLoad]),
-              new Promise(resolve => setTimeout(resolve, timeoutMs))
+              new Promise(resolve => { fontTimer = setTimeout(resolve, Math.max(0, deadline - Date.now())); })
             ]);
           }
         } catch (e) {
           console.warn('字体加载未完成，导出将使用可用的后备字体。', e);
+        } finally {
+          clearTimeout(fontTimer);
         }
       }
 
@@ -1120,7 +1178,7 @@
           if (data.q8) q8Input.value = data.q8;
 
           // 重新计算文本框高度
-          document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+          textareas.forEach(autoResizeTextarea);
         } catch (e) {
           console.error('加载失败:', e);
           clearSavedData();
@@ -1163,7 +1221,7 @@
           toggleOtherField();
 
           // 重新计算文本框高度
-          document.querySelectorAll('textarea').forEach(ta => autoResizeTextarea(ta));
+          textareas.forEach(autoResizeTextarea);
         } catch (e) {
           console.error('重置表单失败:', e);
         }
@@ -1183,6 +1241,7 @@
           aceTypeOtherTextarea.style.display = 'block';
           aceTypeOtherTextarea.required = true;
           aceTypeOtherTextarea.setAttribute('aria-required', 'true');
+          autoResizeTextarea(aceTypeOtherTextarea);
         } else {
           aceTypeOtherTextarea.style.display = 'none';
           aceTypeOtherTextarea.required = false;
@@ -1279,23 +1338,28 @@
         else if (num > 99) this.value = 99;
       });
 
-      // 自适应文本框高度
-      let resizeTimer = null;
+      // 合并同一帧内的输入，先统一写入，再测量，避免逐个读写触发重复布局。
       function autoResizeTextarea(ta) {
         if (!ta) return;
-        if (resizeTimer) clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          if (!ta || !ta.style) return;
-          ta.style.height = 'auto';
-          let newHeight = Math.min(ta.scrollHeight, 260);
-          ta.style.height = newHeight + 'px';
-        }, 12);
+        pendingTextareas.add(ta);
+        if (resizeFrame !== null) return;
+        resizeFrame = requestAnimationFrame(() => {
+          resizeFrame = null;
+          const elements = Array.from(pendingTextareas).filter(el => el.style.display !== 'none');
+          pendingTextareas.clear();
+          elements.forEach(el => { el.style.height = 'auto'; });
+          const heights = elements.map(el => Math.min(el.scrollHeight + el.offsetHeight - el.clientHeight, 260));
+          elements.forEach((el, index) => { el.style.height = heights[index] + 'px'; });
+        });
       }
 
-      document.querySelectorAll('textarea').forEach(ta => {
+      textareas.forEach(ta => {
         ta.addEventListener('input', function () { autoResizeTextarea(this); });
         autoResizeTextarea(ta);
       });
+      if (document.fonts && document.fonts.addEventListener) {
+        document.fonts.addEventListener('loadingdone', () => textareas.forEach(autoResizeTextarea));
+      }
 
       // 获取radio的完整文本（用于Q6，以及其他可能通用，但主要用专门函数）
       function getRadioFullLabel(name) {
@@ -1562,7 +1626,10 @@
         loadingOverlay.classList.add('show');
 
         try {
-          await waitForFonts(cardElement.textContent || '');
+          const [html2canvas] = await Promise.all([
+            loadHtml2canvas(),
+            waitForFonts(cardElement.textContent || '')
+          ]);
           const needExportFix = isFirefox();
           if (needExportFix) cardElement.classList.add('export-fix');
           const cardHeight = Math.ceil(cardElement.getBoundingClientRect().height || 0);
