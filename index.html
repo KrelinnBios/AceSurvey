@@ -1,107 +1,160 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover" />
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>AceSurvey - 无性恋社群问卷卡片</title>
-  <meta name="description" content="面向无性恋社群的静态问卷与卡片生成工具，用于填写基础信息、梳理自我经验，并在本地生成适合保存或分享的问卷卡片。" />
-  <meta name="theme-color" content="#7c3aed" />
+  <meta name="description" content="面向无性恋社群的静态问卷与卡片生成工具，用于填写基础信息、梳理自我经验，并在本地生成适合保存或分享的问卷卡片。">
+  <meta name="theme-color" content="#7c3aed">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="icon" href="icon/favicon.svg?v=202609107" type="image/svg+xml">
+  <link rel="canonical" href="https://survey.prismself.vip/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AceSurvey">
+  <meta property="og:title" content="AceSurvey - 无性恋社群问卷卡片">
+  <meta property="og:description" content="面向无性恋社群的静态问卷与卡片生成工具，用于填写基础信息、梳理自我经验，并在本地生成适合保存或分享的问卷卡片。">
+  <meta property="og:url" content="https://survey.prismself.vip/">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:image" content="https://survey.prismself.vip/screenshots/PixPin_2026-06-30_23-52-56.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- 霞鹜文楷 GB：分包加载，固定版本以保持视觉稳定。 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link id="survey-fonts" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.530.0/style.css"
+    media="print" onload="this.media='all'" onerror="this.dataset.failed='true'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@1.530.0/style.css">
+  </noscript>
   <style>
-    :root {
-      --bg: #fafbfd;
-      --panel: #fff;
-      --purple: #8b5cf6;
-      --purple-2: #c084fc;
-      --purple-soft: #f3edff;
-      --text: #2c1c42;
-      --muted: #8b7ca8;
-      --line: #e9defd;
-      --shadow: rgba(99, 60, 156, 0.08);
-      --card-width: 540px;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
+    :root {
+      --page-bg: #fafbfd;
+      --page-glow-primary: rgba(72, 88, 116, 0.045);
+      --page-glow-secondary: rgba(124, 58, 237, 0.04);
+      --art-font-stack: 'LXGW WenKai GB', 'Songti SC', 'STKaiti', 'KaiTi', serif;
+      --reading-font-stack: 'LXGW WenKai GB', 'Songti SC', 'STKaiti', 'KaiTi', serif;
+    }
+
+    :root[data-theme="dark"] {
+      --page-bg: #101318;
+      --page-glow-primary: rgba(72, 88, 116, 0.1);
+      --page-glow-secondary: rgba(113, 78, 160, 0.08);
+    }
+
     body {
-      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
+      background: var(--page-bg);
+      font-family: var(--reading-font-stack);
+      color: #2c1c42;
       overflow-x: hidden;
+      padding-bottom: env(safe-area-inset-bottom, 20px);
+    }
+
+    /* 柔光背景 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 10% 20%, var(--page-glow-primary) 0%, transparent 40%),
+        radial-gradient(circle at 90% 70%, var(--page-glow-secondary) 0%, transparent 45%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .container {
-      max-width: var(--card-width);
+      position: relative;
+      z-index: 2;
+      max-width: 540px;
       margin: 0 auto;
       padding: 24px 18px 80px;
-      position: relative;
-      z-index: 1;
     }
 
+    /* header */
     .header {
       text-align: center;
       margin-bottom: 20px;
-      padding-top: 12px;
+      padding: 12px 0 8px;
     }
 
     .ace-symbol {
       font-size: 48px;
       letter-spacing: 8px;
       display: inline-block;
-      animation: floaty 3s ease-in-out infinite;
+      animation: gentleFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes gentleFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-5px);
+      }
     }
 
     .header h1 {
-      margin: 10px 0 6px;
+      font-family: var(--art-font-stack);
       font-size: 25px;
-      line-height: 1.45;
-      font-weight: 700;
-      color: var(--purple);
+      font-weight: 500;
+      background: linear-gradient(135deg, #7c3aed, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
       letter-spacing: 0.8px;
+      line-height: 1.45;
+      margin: 8px 0 6px;
     }
 
     .sub {
-      display: inline-block;
-      border-top: 1px solid #e2d9f5;
-      padding-top: 8px;
       font-size: 12px;
-      color: var(--muted);
+      color: #988bc7;
+      border-top: 1px solid #e2d9f5;
+      display: inline-block;
+      padding-top: 8px;
     }
 
-    @keyframes floaty {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-
+    /* 问卷卡片 */
     .form-card {
-      background: var(--panel);
-      border: 1px solid var(--line);
+      background: white;
       border-radius: 28px;
       padding: 20px 18px;
       margin-bottom: 18px;
-      box-shadow: 0 8px 20px var(--shadow);
+      box-shadow: 0 8px 20px rgba(99, 60, 156, 0.05);
+      border: 1px solid #ede5ff;
+      transition: all 0.2s;
     }
 
     .q-number {
       font-size: 11px;
+      font-weight: 600;
       letter-spacing: 2px;
       color: #a78bfa;
-      font-weight: 700;
       margin-bottom: 8px;
       text-transform: uppercase;
     }
 
     .q-label {
       font-size: 17px;
-      line-height: 1.45;
-      font-weight: 700;
+      font-weight: 600;
       color: #2a1a45;
+      line-height: 1.4;
       margin-bottom: 16px;
       padding-right: 6px;
     }
 
     .q-label::after {
-      content: "必答";
+      content: '必答';
       display: inline-block;
       margin-left: 8px;
       padding: 2px 7px;
@@ -109,14 +162,23 @@
       background: #f3edff;
       color: #8254d1;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 600;
+      line-height: 1.4;
       vertical-align: 2px;
     }
 
+    /* 选项组 */
     .radio-group {
       display: flex;
       flex-direction: column;
       gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .optional-note {
+      margin: 2px 0 8px 4px;
+      color: #8b7ca8;
+      font-size: 12px;
     }
 
     .radio-option {
@@ -125,14 +187,15 @@
       gap: 12px;
       background: #fcfaff;
       border: 1px solid #e7dfef;
-      border-radius: 999px;
+      border-radius: 60px;
       padding: 10px 18px;
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
-    .radio-option:hover {
-      background: #f7f2ff;
+    .radio-option:active {
+      background: #f3edff;
+      transform: scale(0.98);
     }
 
     .radio-option input[type="radio"] {
@@ -144,36 +207,58 @@
       position: relative;
       flex-shrink: 0;
       cursor: pointer;
-      background: #fff;
     }
 
     .radio-option input[type="radio"]:checked {
       border-color: #8b5cf6;
-      background: #8b5cf6;
+      background-color: #8b5cf6;
       box-shadow: inset 0 0 0 3px white;
     }
 
     .radio-text {
       font-size: 15px;
+      font-weight: 500;
       color: #332155;
-      line-height: 1.4;
+      line-height: 1.3;
     }
 
-    textarea, input[type="text"], input[type="number"] {
+    .radio-option:has(input:checked) {
+      border-color: #c4b0ff;
+      background: #f7f2ff;
+    }
+
+    /* 文本框 */
+    textarea,
+    input[type="text"],
+    input[type="number"] {
       width: 100%;
       background: #fefcff;
       border: 1px solid #e6ddf7;
       border-radius: 20px;
-      color: var(--text);
+      font-family: var(--reading-font-stack);
       font-size: 14px;
       padding: 14px 16px;
+      color: #2c1c42;
       resize: vertical;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s, color 0.2s;
     }
 
-    textarea:focus, input:focus {
-      outline: none;
+    /* 移除number输入框的上下箭头（加减按钮） */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    textarea:focus,
+    input:focus {
       border-color: #a78bfa;
+      outline: none;
       box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
     }
 
@@ -186,19 +271,346 @@
     .age-input-wrapper input[type="number"] {
       width: 100px;
       font-size: 18px;
-      font-weight: 700;
+      font-weight: 600;
       text-align: center;
     }
 
-    .age-unit {
-      color: var(--muted);
-      font-size: 15px;
+    .char-hint {
+      font-size: 11px;
+      color: #aa9fcc;
+      margin-top: 6px;
+      text-align: right;
     }
 
-    .optional-note {
-      margin: 8px 0 8px 4px;
-      color: var(--muted);
+    /* 按钮 */
+    .submit-area {
+      margin-top: 10px;
+    }
+
+    .btn-export {
+      width: 100%;
+      background: linear-gradient(98deg, #8b5cf6, #c084fc);
+      border: none;
+      border-radius: 60px;
+      padding: 16px 0;
+      font-family: var(--art-font-stack);
+      font-size: 20px;
+      letter-spacing: 1px;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
+      cursor: pointer;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .btn-export:active {
+      transform: scale(0.97);
+      opacity: 0.9;
+    }
+
+    .export-hint {
       font-size: 12px;
+      color: #aa9cc7;
+      text-align: center;
+      margin-top: 16px;
+      line-height: 1.6;
+    }
+
+    .github-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: fit-content;
+      margin: 8px auto 0;
+      font-size: 12px;
+      line-height: 16px;
+      color: #b8acd6;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .github-link:hover {
+      color: #8b5cf6;
+    }
+
+    .github-link svg {
+      display: block;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      fill: currentColor;
+    }
+
+    .github-link span {
+      display: block;
+      line-height: 16px;
+    }
+
+    .site-footer {
+      position: relative;
+      z-index: 2;
+      max-width: 540px;
+      margin: 14px auto 0;
+      padding: 0 18px;
+      text-align: center;
+      font-size: 11px;
+      color: #b8acd6;
+    }
+
+    .site-footer a {
+      color: #b8acd6;
+      text-decoration: none;
+    }
+
+    .site-footer a:hover {
+      color: #8b5cf6;
+    }
+
+    /* 输出卡片样式 (截图书写) */
+    #output-card {
+      display: none;
+      background: white;
+      border-radius: 32px;
+      padding: 32px 26px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.1);
+      font-family: var(--reading-font-stack);
+    }
+
+    /* html2canvas 在中英混排 + letter-spacing 时容易出现相邻字符粘连/重叠，
+       统一关闭字距与词距，避免任意浏览器复现同款问题 */
+    #output-card,
+    #output-card * {
+      letter-spacing: 0 !important;
+      word-spacing: 0 !important;
+    }
+
+    #output-card.export-fix,
+    #output-card.export-fix * {
+      letter-spacing: 0 !important;
+      word-spacing: 0 !important;
+    }
+
+    .oc-header {
+      text-align: center;
+      padding-bottom: 16px;
+      margin-bottom: 26px;
+      border-bottom: 2px dashed #ede5ff;
+    }
+
+    /* 截图卡片标题使用实色，避免渐变导致 html2canvas 渲染透明 */
+    .oc-title {
+      font-family: var(--art-font-stack);
+      font-size: 22px;
+      font-weight: 400;
+      color: #5b21b6;
+      letter-spacing: 2px !important;
+      background: none;
+      -webkit-background-clip: unset;
+      background-clip: unset;
+      text-shadow: none;
+      margin: 6px 0 4px;
+    }
+
+    .oc-subtitle {
+      font-size: 11px;
+      color: #b5a2dc;
+      margin-top: 6px;
+    }
+
+    .oc-item {
+      margin-bottom: 22px;
+    }
+
+    .oc-question {
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .oc-qnum {
+      color: #6b4e9e;
+      font-size: 14px;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+
+    .oc-qtext {
+      color: #6b4e9e;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .oc-answer {
+      font-size: 15px;
+      color: #1f1435;
+      line-height: 1.8;
+      white-space: pre-wrap;
+      word-break: break-word;
+      border-left: 3px solid #d9cafc;
+      padding: 4px 0 4px 14px;
+    }
+
+    .oc-footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 16px;
+      border-top: 2px dashed #ede5ff;
+      font-size: 11px;
+      color: #b7a7df;
+    }
+
+    /* 加载遮罩 */
+    .loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .loading-overlay.show {
+      display: flex;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.2);
+      border-top: 4px solid #c084fc;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-text {
+      color: #f2ecff;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #2d1f4e;
+      color: #f2ecff;
+      padding: 12px 24px;
+      border-radius: 60px;
+      font-size: 13px;
+      z-index: 999;
+      transition: transform 0.25s ease;
+      white-space: nowrap;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* 问卷使用说明 */
+    html:has(.review-notice[open]) {
+      overflow: hidden;
+    }
+
+    .review-notice {
+      width: calc(100% - 32px);
+      max-width: 460px;
+      max-height: calc(100vh - 32px);
+      max-height: calc(100dvh - 32px);
+      margin: auto;
+      padding: 24px;
+      border: 1px solid #ede5ff;
+      border-radius: 28px;
+      background: white;
+      color: #2c1c42;
+      box-shadow: 0 24px 64px rgba(44, 28, 66, 0.2);
+    }
+
+    .review-notice[open] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .review-notice::backdrop {
+      background: rgba(24, 16, 36, 0.6);
+    }
+
+    .review-notice h2 {
+      flex-shrink: 0;
+      margin-bottom: 16px;
+      font-size: 22px;
+      line-height: 1.4;
+      color: #5b21b6;
+    }
+
+    .review-notice-content {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      font-size: 16px;
+      line-height: 1.85;
+    }
+
+    .review-notice-content p + p {
+      margin-top: 14px;
+    }
+
+    .review-notice form {
+      flex-shrink: 0;
+      margin-top: 20px;
+    }
+
+    .review-notice .btn-export {
+      padding: 14px 12px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+
+    .review-notice .btn-export:focus {
+      outline: none;
+    }
+
+    :root[data-theme="dark"] .review-notice {
+      background: #1d1924;
+      color: #ecebf0;
+      border-color: rgba(151, 129, 190, 0.25);
+    }
+
+    :root[data-theme="dark"] .review-notice h2 {
+      color: #c4b0ff;
+    }
+
+    /* 辅助隐藏 */
+    .hidden-other {
+      display: none;
+    }
+
+    /* 移动端优化 + 防止自动滚动干扰 */
+    input,
+    textarea,
+    .radio-option {
+      touch-action: manipulation;
+    }
+
+    textarea {
+      max-height: 280px;
+      transition: height 0.05s ease;
     }
 
     .textarea-hint {
@@ -208,202 +620,190 @@
       line-height: 1.5;
     }
 
-    .submit-area {
-      margin-top: 10px;
+    html {
+      scroll-behavior: auto;
     }
 
-    .btn-export {
-      width: 100%;
-      border: none;
-      border-radius: 60px;
-      background: linear-gradient(98deg, #8b5cf6, #c084fc);
-      color: #fff;
-      padding: 16px 0;
-      font-size: 20px;
-      font-weight: 700;
-      cursor: pointer;
-      box-shadow: 0 6px 14px rgba(139, 92, 246, 0.3);
+    input:focus,
+    textarea:focus {
+      outline: none;
     }
 
-    .export-hint {
-      margin-top: 16px;
-      text-align: center;
-      font-size: 12px;
-      color: #aa9cc7;
-      line-height: 1.6;
-    }
-
-    .site-footer {
-      text-align: center;
-      margin-top: 14px;
-      font-size: 11px;
-      color: #b8acd6;
-    }
-
-    .site-footer a, .github-link {
-      color: #b8acd6;
-      text-decoration: none;
-    }
-
-    .github-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      width: fit-content;
-      margin: 12px auto 0;
-      font-size: 12px;
-    }
-
-    .github-link svg {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
-    }
-
-    #output-card {
-      display: none;
-      max-width: 420px;
-      width: 100%;
-      margin: 24px auto 0;
-      background: white;
-      border-radius: 32px;
-      padding: 32px 26px;
-      box-shadow: 0 25px 40px rgba(0, 0, 0, 0.1);
-      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    }
-
-    .oc-header {
-      text-align: center;
-      border-bottom: 2px dashed #ede5ff;
-      padding-bottom: 16px;
-      margin-bottom: 26px;
-    }
-
-    .oc-title {
-      font-size: 22px;
-      color: #5b21b6;
-      margin: 6px 0 4px;
-      letter-spacing: 2px;
-    }
-
-    .oc-subtitle {
-      font-size: 11px;
-      color: #b5a2dc;
-    }
-
-    .oc-item { margin-bottom: 22px; }
-    .oc-question { margin-bottom: 12px; line-height: 1.5; }
-    .oc-qnum { color: #6b4e9e; font-weight: 700; margin-right: 6px; }
-    .oc-qtext { color: #6b4e9e; font-weight: 700; }
-    .oc-answer {
-      white-space: pre-wrap;
-      word-break: break-word;
-      border-left: 3px solid #d9cafc;
-      padding: 4px 0 4px 14px;
-      color: #1f1435;
-      line-height: 1.8;
-      font-size: 15px;
-    }
-
-    .oc-footer {
-      text-align: center;
-      border-top: 2px dashed #ede5ff;
-      padding-top: 16px;
-      margin-top: 30px;
-      color: #b7a7df;
-      font-size: 11px;
-    }
-
-    .loading-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(4px);
-      z-index: 200;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .loading-overlay.show { display: flex; }
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid rgba(255,255,255,0.2);
-      border-top-color: #c084fc;
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .loading-text {
-      color: #f2ecff;
-      letter-spacing: 1px;
-      font-size: 14px;
-    }
-
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      transition: transform 0.25s ease;
-      background: #2d1f4e;
-      color: #f2ecff;
-      padding: 12px 24px;
-      border-radius: 60px;
-      white-space: nowrap;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      pointer-events: none;
-      z-index: 999;
-    }
-
-    .toast.show { transform: translateX(-50%) translateY(0); }
-
-    dialog.review-notice {
-      width: min(460px, calc(100% - 32px));
-      border: 1px solid #ede5ff;
-      border-radius: 28px;
-      background: white;
-      color: var(--text);
-      box-shadow: 0 24px 64px rgba(44, 28, 66, 0.2);
-      padding: 24px;
-    }
-
-    dialog.review-notice::backdrop {
-      background: rgba(24, 16, 36, 0.6);
-    }
-
-    .review-notice h2 {
-      margin: 0 0 16px;
-      color: #5b21b6;
-      font-size: 22px;
-    }
-
-    .review-notice-content {
-      font-size: 16px;
-      line-height: 1.85;
-    }
-
-    .review-notice-content p { margin: 0 0 12px; }
-    .review-notice form { margin-top: 20px; }
-
+    /* Mobile: denser survey layout without affecting the exported #output-card. */
     @media (max-width: 620px) {
-      .container { padding: 16px 24px 52px; }
-      .header h1 { font-size: 23px; }
-      .form-card { padding: 16px 14px; border-radius: 20px; }
-      .radio-option { border-radius: 22px; padding: 8px 12px; }
-      .btn-export { font-size: 19px; }
-      dialog.review-notice { width: min(460px, calc(100% - 48px)); padding: 20px; }
+      .container {
+        max-width: 480px;
+        padding: 16px 24px 52px;
+      }
+
+      .header {
+        margin-bottom: 14px;
+        padding: 8px 0 4px;
+      }
+
+      .ace-symbol {
+        font-size: 36px;
+        letter-spacing: 5px;
+      }
+
+      .header h1 {
+        font-size: 23px;
+        line-height: 1.45;
+        letter-spacing: 0.6px;
+        margin: 6px 0 5px;
+      }
+
+      .sub {
+        font-size: 11px;
+        padding-top: 7px;
+      }
+
+      .form-card {
+        padding: 16px 14px;
+        margin-bottom: 12px;
+        border-radius: 20px;
+      }
+
+      .q-number {
+        margin-bottom: 6px;
+        letter-spacing: 1.6px;
+      }
+
+      .q-label {
+        font-size: 16px;
+        line-height: 1.45;
+        margin-bottom: 12px;
+        padding-right: 0;
+      }
+
+      .q-label::after {
+        margin-left: 6px;
+        padding: 2px 6px;
+      }
+
+      .radio-group {
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .radio-option {
+        min-height: 44px;
+        padding: 8px 12px;
+        gap: 10px;
+        border-radius: 22px;
+      }
+
+      .radio-text {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+
+      textarea,
+      input[type="text"],
+      input[type="number"] {
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 11px 13px;
+        border-radius: 14px;
+      }
+
+      /* Keep tap-friendly inputs, but reduce survey answer/placeholder text. */
+      textarea {
+        font-size: 14px;
+        line-height: 1.55;
+      }
+
+      .age-input-wrapper {
+        gap: 10px;
+      }
+
+      .age-input-wrapper input[type="number"] {
+        width: 84px;
+        font-size: 16px;
+      }
+
+      .optional-note {
+        margin-bottom: 6px;
+      }
+
+      .btn-export {
+        padding: 14px 0;
+        font-size: 19px;
+      }
+
+      .review-notice {
+        width: calc(100% - 48px);
+        max-height: calc(100dvh - 28px);
+        padding: 20px;
+        border-radius: 20px;
+      }
+
+      .review-notice h2 {
+        margin-bottom: 12px;
+        font-size: 20px;
+      }
+
+      .review-notice-content {
+        font-size: 15px;
+        line-height: 1.65;
+      }
+
+      .review-notice-content p + p {
+        margin-top: 10px;
+      }
+
+      .review-notice form {
+        margin-top: 16px;
+      }
+
+      .review-notice .btn-export {
+        padding: 13px 10px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .container {
+        padding-right: 20px;
+        padding-left: 20px;
+      }
+
+      .header h1 {
+        font-size: 21px;
+        letter-spacing: 0.3px;
+      }
+
+      .form-card {
+        padding: 14px 12px;
+      }
+
+      .q-label {
+        font-size: 15px;
+      }
+
+      .radio-option {
+        padding-right: 10px;
+        padding-left: 10px;
+        gap: 8px;
+      }
+
+      .review-notice {
+        width: calc(100% - 40px);
+        padding: 16px;
+      }
+
+      .review-notice h2 {
+        font-size: 19px;
+      }
     }
   </style>
+
+  <link rel="stylesheet" href="assets/theme.css?v=202609106">
+  <script src="assets/theme.js?v=202609106"></script>
 </head>
+
 <body>
+
   <div class="container">
     <div class="header">
       <div class="ace-symbol">🖤🤍💜</div>
@@ -411,39 +811,41 @@
       <div class="sub">请如实填写，所有回答均保密</div>
     </div>
 
+
     <div class="form-card">
       <div class="q-number">Q1</div>
       <div class="q-label">你的无性恋谱系类型是？</div>
       <div class="radio-group" id="ace-type-group">
         <label class="radio-option">
-          <input type="radio" name="ace_type" value="无性恋（Asexual）" />
+          <input type="radio" name="ace_type" value="无性恋（Asexual）">
           <span class="radio-text">无性恋（Asexual）</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="ace_type" value="灰性恋（Graysexual）" />
+          <input type="radio" name="ace_type" value="灰性恋（Graysexual）">
           <span class="radio-text">灰性恋（Greysexual/Graysexual）</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="ace_type" value="半性恋（Demisexual）" />
+          <input type="radio" name="ace_type" value="半性恋（Demisexual）">
           <span class="radio-text">半性恋（Demisexual）</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="ace_type" value="仍在探索中" />
+          <input type="radio" name="ace_type" value="仍在探索中">
           <span class="radio-text">仍在探索中，不确定</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="ace_type" value="other_ace" />
+          <input type="radio" name="ace_type" value="other_ace">
           <span class="radio-text">其他类型 ↓</span>
         </label>
       </div>
-      <textarea id="ace_type_other" rows="2" placeholder="请具体说明……" style="min-height:65px;margin-top:8px;"></textarea>
+      <textarea id="ace_type_other" rows="2" placeholder="请具体说明……"
+        style="min-height: 65px; margin-top: 8px;"></textarea>
     </div>
 
     <div class="form-card">
       <div class="q-number">Q2</div>
       <div class="q-label">你的年龄？</div>
       <div class="age-input-wrapper">
-        <input type="number" id="age" min="1" max="99" inputmode="numeric" />
+        <input type="number" id="age" min="1" max="99" inputmode="numeric">
         <span class="age-unit">岁</span>
       </div>
     </div>
@@ -472,20 +874,20 @@
       <div class="q-label">你对性行为持什么态度？</div>
       <div class="radio-group" id="sex-attitude-group">
         <label class="radio-option">
-          <input type="radio" name="sex_attitude" value="性厌恶/性排斥（Sex-averse/Sex-repulsed）" />
+          <input type="radio" name="sex_attitude" value="性厌恶/性排斥（Sex-averse/Sex-repulsed）">
           <span class="radio-text">性厌恶/排斥（Sex-Averse/Repulsed）</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="sex_attitude" value="性无感（Sex-indifferent）" />
+          <input type="radio" name="sex_attitude" value="性无感（Sex-indifferent）">
           <span class="radio-text">性无感（Sex-Indifferent）</span>
         </label>
         <label class="radio-option">
-          <input type="radio" name="sex_attitude" value="性友好（Sex-favorable）" />
+          <input type="radio" name="sex_attitude" value="性友好（Sex-favorable）">
           <span class="radio-text">性友好（Sex-Favorable）</span>
         </label>
       </div>
       <div class="optional-note">补充说明（可选）</div>
-      <textarea id="q6" rows="3" placeholder="可以进一步展开你的态度、想法或体验……" style="min-height:70px;"></textarea>
+      <textarea id="q6" rows="3" placeholder="可以进一步展开你的态度、想法或体验……" style="min-height: 70px;"></textarea>
     </div>
 
     <div class="form-card">
@@ -504,10 +906,10 @@
       <button class="btn-export" id="exportBtn">生成图片</button>
       <p class="export-hint">内容会自动保存到浏览器，退出不用担心丢失<br>点击后生成完整问卷卡片，下载保存即可</p>
       <footer class="site-footer">
-        Hosted on <a href="https://pages.cloudflare.com/" target="_blank" rel="noreferrer">Cloudflare Pages</a>
+        Hosted on <a href="https://pages.cloudflare.com/" target="_blank" rel="noopener noreferrer">Cloudflare Pages</a>
       </footer>
-      <a class="github-link" href="https://github.com/KrelinnBios/AceSurvey" target="_blank" rel="noreferrer">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.22 2.2.82a7.65 7.65 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"></path></svg>
+      <a class="github-link" href="https://github.com/KrelinnBios/AceSurvey" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
         <span>GitHub</span>
       </a>
     </div>
@@ -519,12 +921,12 @@
     <div class="spinner"></div>
     <div class="loading-text">正在绘制卡片…</div>
   </div>
-
   <div class="toast" id="toast"></div>
 
-  <dialog class="review-notice" id="review-notice">
-    <h2>问卷使用说明</h2>
-    <div class="review-notice-content">
+  <dialog class="review-notice" id="review-notice" aria-labelledby="review-notice-title"
+    aria-describedby="review-notice-content">
+    <h2 id="review-notice-title">问卷使用说明</h2>
+    <div class="review-notice-content" id="review-notice-content">
       <p>您填写的答案仅保存在当前浏览器本地，不会上传至任何服务器，也不会自动提交。</p>
       <p>本地草稿会在以下情况自动清除：关闭当前标签页、距最后一次修改满 3 天，或成功生成图片。</p>
       <p>填写完成后，请点击“生成图片”保存卡片，再将图片发送至审核群（不接受私信提交）。</p>
@@ -536,242 +938,795 @@
   </dialog>
 
   <script>
-    const dialog = document.getElementById('review-notice');
-    if (dialog && typeof dialog.showModal === 'function') {
-      dialog.showModal();
-    }
+    document.getElementById('review-notice').showModal();
+  </script>
 
-    const storageKey = 'ace_survey_draft';
-    const loadingOverlay = document.getElementById('loading');
-    const toastEl = document.getElementById('toast');
-    const exportBtn = document.getElementById('exportBtn');
-    const outputCard = document.getElementById('output-card');
+  <script>
+    (function () {
+      // DOM 元素
+      const loadingOverlay = document.getElementById('loading');
+      const toastEl = document.getElementById('toast');
+      const exportBtn = document.getElementById('exportBtn');
+      const aceTypeOtherTextarea = document.getElementById('ace_type_other');
+      const aceTypeRadios = document.querySelectorAll('input[name="ace_type"]');
+      const ageInput = document.getElementById('age');
+      const q3Input = document.getElementById('q3');
+      const q4Input = document.getElementById('q4');
+      const q5Input = document.getElementById('q5');
+      const q6Textarea = document.getElementById('q6');
+      const q7Input = document.getElementById('q7');
+      const q8Input = document.getElementById('q8');
+      const sexAttitudeRadios = document.querySelectorAll('input[name="sex_attitude"]');
+      const textareas = Array.from(document.querySelectorAll('textarea'));
+      // 恢复草稿前初始化，确保所有待调整文本框在同一帧内处理。
+      const pendingTextareas = new Set();
+      let resizeFrame = null;
 
-    const fields = {
-      age: document.getElementById('age'),
-      q3: document.getElementById('q3'),
-      q4: document.getElementById('q4'),
-      q5: document.getElementById('q5'),
-      q6: document.getElementById('q6'),
-      q7: document.getElementById('q7'),
-      q8: document.getElementById('q8'),
-      aceTypeOther: document.getElementById('ace_type_other'),
-      aceTypeRadios: document.querySelectorAll('input[name="ace_type"]'),
-      sexRadios: document.querySelectorAll('input[name="sex_attitude"]')
-    };
-
-    function escapeHtml(value) {
-      return String(value ?? '').replace(/[&<>"']/g, (ch) => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      }[ch]));
-    }
-
-    function normalizeText(value) {
-      return String(value ?? '').trim();
-    }
-
-    function getSelectedRadio(name) {
-      const radio = document.querySelector(`input[name="${name}"]:checked`);
-      return radio ? radio.value : '';
-    }
-
-    function getRadioText(name, value) {
-      const radio = document.querySelector(`input[name="${name}"][value="${CSS.escape(value)}"]`);
-      if (!radio) return value;
-      const label = radio.closest('label');
-      return label ? label.querySelector('.radio-text')?.textContent?.trim() || value : value;
-    }
-
-    function saveDraft() {
-      const draft = {
-        age: fields.age.value,
-        q3: fields.q3.value,
-        q4: fields.q4.value,
-        q5: fields.q5.value,
-        q6: fields.q6.value,
-        q7: fields.q7.value,
-        q8: fields.q8.value,
-        aceTypeOther: fields.aceTypeOther.value,
-        aceType: getSelectedRadio('ace_type'),
-        sexAttitude: getSelectedRadio('sex_attitude'),
-        updatedAt: Date.now()
-      };
-      localStorage.setItem(storageKey, JSON.stringify(draft));
-    }
-
-    function loadDraft() {
-      const raw = localStorage.getItem(storageKey);
-      if (!raw) return;
-      try {
-        const draft = JSON.parse(raw);
-        if (!draft) return;
-        if (draft.age) fields.age.value = draft.age;
-        if (draft.q3) fields.q3.value = draft.q3;
-        if (draft.q4) fields.q4.value = draft.q4;
-        if (draft.q5) fields.q5.value = draft.q5;
-        if (draft.q6) fields.q6.value = draft.q6;
-        if (draft.q7) fields.q7.value = draft.q7;
-        if (draft.q8) fields.q8.value = draft.q8;
-        if (draft.aceTypeOther) fields.aceTypeOther.value = draft.aceTypeOther;
-        if (draft.aceType) {
-          const radio = document.querySelector(`input[name="ace_type"][value="${draft.aceType}"]`);
-          if (radio) radio.checked = true;
-        }
-        if (draft.sexAttitude) {
-          const radio = document.querySelector(`input[name="sex_attitude"][value="${draft.sexAttitude}"]`);
-          if (radio) radio.checked = true;
-        }
-      } catch (error) {
-        console.warn('draft load failed', error);
-      }
-    }
-
-    function clearDraft() {
-      localStorage.removeItem(storageKey);
-    }
-
-    function showToast(msg) {
-      toastEl.textContent = msg;
-      toastEl.classList.add('show');
-      setTimeout(() => toastEl.classList.remove('show'), 2500);
-    }
-
-    function validateForm() {
-      const required = [
-        { label: 'Q2', value: fields.age.value },
-        { label: 'Q3', value: fields.q3.value },
-        { label: 'Q4', value: fields.q4.value },
-        { label: 'Q5', value: fields.q5.value },
-        { label: 'Q7', value: fields.q7.value },
-        { label: 'Q8', value: fields.q8.value }
-      ];
-
-      const missing = required.filter(item => !normalizeText(item.value));
-      if (!getSelectedRadio('ace_type')) {
-        missing.push({ label: 'Q1', value: '' });
-      } else if (getSelectedRadio('ace_type') === 'other_ace' && !normalizeText(fields.aceTypeOther.value)) {
-        missing.push({ label: 'Q1（其他类型说明）', value: '' });
-      }
-      if (!getSelectedRadio('sex_attitude')) {
-        missing.push({ label: 'Q6', value: '' });
-      }
-
-      if (missing.length) {
-        showToast(`请完善：${missing.map(x => x.label).join('、')}`);
-        return false;
-      }
-      return true;
-    }
-
-    function buildExportMarkup() {
-      const aceType = getSelectedRadio('ace_type');
-      const sexAttitude = getSelectedRadio('sex_attitude');
-      const q1Value = aceType === 'other_ace'
-        ? `其他类型：${fields.aceTypeOther.value.trim()}`
-        : (aceType || '未填写');
-
-      const rows = [
-        { q: 'Q1', text: '你的无性恋谱系类型是？', value: q1Value },
-        { q: 'Q2', text: '你的年龄？', value: `${normalizeText(fields.age.value) || '未填写'} 岁` },
-        { q: 'Q3', text: '你是什么时候发现自己是无性恋谱系的？', value: normalizeText(fields.q3.value) || '未填写' },
-        { q: 'Q4', text: '为什么觉得自己是这种类型？', value: normalizeText(fields.q4.value) || '未填写' },
-        { q: 'Q5', text: '谈谈你对无性恋谱系的了解。', value: normalizeText(fields.q5.value) || '未填写' },
-        { q: 'Q6', text: '你对性行为持什么态度？', value: `${sexAttitude || '未填写'}${normalizeText(fields.q6.value) ? `\n${fields.q6.value.trim()}` : ''}` },
-        { q: 'Q7', text: '如何看待西方政治正确、白左、女权与 LGBT 运动？', value: normalizeText(fields.q7.value) || '未填写' },
-        { q: 'Q8', text: '如果通过审核，你期待在社群里获得什么体验？', value: normalizeText(fields.q8.value) || '未填写' }
-      ];
-
-      const items = rows.map((item) => `
-        <div class="oc-item">
-          <div class="oc-question">
-            <span class="oc-qnum">${item.q}</span>
-            <span class="oc-qtext">${escapeHtml(item.text)}</span>
-          </div>
-          <div class="oc-answer">${escapeHtml(item.value || '未填写')}</div>
-        </div>
-      `).join('');
-
-      return `
-        <div class="oc-header">
-          <div class="oc-title">无性恋社群·基本信息问卷</div>
-          <div class="oc-subtitle">生成时间：${new Date().toLocaleString('zh-CN')}</div>
-        </div>
-        ${items}
-        <div class="oc-footer">AceSurvey · 保护隐私 · 本地保存</div>
-      `;
-    }
-
-    function resizeTextareas() {
-      document.querySelectorAll('textarea').forEach((el) => {
-        el.style.height = 'auto';
-        el.style.height = Math.max(el.scrollHeight + 6, 48) + 'px';
+      // 所有编号题均为必答；Q1 的“其他类型”说明按选择动态处理。
+      [ageInput, q3Input, q4Input, q5Input, q7Input, q8Input].forEach(el => {
+        el.required = true;
       });
-    }
+      [...aceTypeRadios, ...sexAttitudeRadios].forEach(radio => {
+        radio.required = true;
+      });
+      document.getElementById('ace-type-group').setAttribute('aria-required', 'true');
+      document.getElementById('sex-attitude-group').setAttribute('aria-required', 'true');
 
-    async function exportImage() {
-      if (!validateForm()) return;
-      loadingOverlay.classList.add('show');
-      exportBtn.disabled = true;
-      try {
-        outputCard.innerHTML = buildExportMarkup();
-        outputCard.style.display = 'block';
-        await new Promise(resolve => setTimeout(resolve, 50));
+      let resultObjectUrl = null;
 
-        const scriptUrl = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
-        if (!window.html2canvas) {
-          await new Promise((resolve, reject) => {
-            const script = document.createElement('script');
-            script.src = scriptUrl;
-            script.onload = resolve;
-            script.onerror = () => reject(new Error('html2canvas 加载失败'));
-            document.body.appendChild(script);
-          });
-        }
+      // 辅助函数：提示消息
+      function showToast(msg) {
+        toastEl.textContent = msg;
+        toastEl.classList.add('show');
+        setTimeout(() => toastEl.classList.remove('show'), 2500);
+      }
 
-        const canvas = await window.html2canvas(outputCard, {
-          backgroundColor: '#ffffff',
-          scale: 2,
-          useCORS: true,
-          width: outputCard.scrollWidth,
-          height: outputCard.scrollHeight,
-          windowWidth: outputCard.scrollWidth,
-          windowHeight: outputCard.scrollHeight
+      function isFirefox() {
+        const ua = navigator.userAgent || '';
+        return /Firefox\//i.test(ua);
+      }
+
+      // 仅生成图片时加载，复用进行中的请求；失败后允许下一次重试。
+      let html2canvasPromise = null;
+      function loadHtml2canvas() {
+        if (typeof window.html2canvas === 'function') return Promise.resolve(window.html2canvas);
+        if (html2canvasPromise) return html2canvasPromise;
+        html2canvasPromise = new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+          script.integrity = 'sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==';
+          script.crossOrigin = 'anonymous';
+          script.referrerPolicy = 'no-referrer';
+          script.async = true;
+          const timer = setTimeout(() => finish(new Error('图片导出库加载超时')), 15000);
+          function finish(error) {
+            clearTimeout(timer);
+            script.onload = script.onerror = null;
+            if (error) {
+              script.remove();
+              reject(error);
+            } else {
+              resolve(window.html2canvas);
+            }
+          }
+          script.onload = () => finish(typeof window.html2canvas === 'function' ? null : new Error('图片导出库不可用'));
+          script.onerror = () => finish(new Error('图片导出库加载失败'));
+          document.head.appendChild(script);
+        }).catch(error => {
+          html2canvasPromise = null;
+          throw error;
         });
-
-        const link = document.createElement('a');
-        link.download = `ace_survey_${new Date().toISOString().slice(0, 10)}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-        clearDraft();
-        showToast('图片已生成并下载');
-      } catch (error) {
-        console.error(error);
-        showToast('图片生成失败，请稍后再试');
-      } finally {
-        loadingOverlay.classList.remove('show');
-        exportBtn.disabled = false;
+        return html2canvasPromise;
       }
-    }
 
-    document.querySelectorAll('textarea, input').forEach((el) => {
-      el.addEventListener('input', () => {
-        resizeTextareas();
-        saveDraft();
+      async function waitForFonts(exportText = '', timeoutMs = 6500) {
+        const deadline = Date.now() + timeoutMs;
+        let fontTimer;
+        try {
+          // 字体样式异步加载；提前导出时先等样式表，避免误用后备字体。
+          const stylesheet = document.getElementById('survey-fonts');
+          if (stylesheet && stylesheet.media !== 'all' && !stylesheet.dataset.failed) {
+            await new Promise(resolve => {
+              const timer = setTimeout(finish, timeoutMs);
+              function finish() {
+                clearTimeout(timer);
+                stylesheet.removeEventListener('load', finish);
+                stylesheet.removeEventListener('error', finish);
+                resolve();
+              }
+              stylesheet.addEventListener('load', finish);
+              stylesheet.addEventListener('error', finish);
+            });
+          }
+          if (document.fonts && document.fonts.ready) {
+            // Load the actual answers as well as the title before html2canvas measures text.
+            // The CDN splits Chinese glyphs across font subsets.
+            const textToLoad = exportText || '无性恋社群基本信息调查问卷';
+            const fontLoad = Promise.all([
+              document.fonts.load('14px "LXGW WenKai GB"', textToLoad),
+              document.fonts.load('500 22px "LXGW WenKai GB"', textToLoad)
+            ]);
+            await Promise.race([
+              Promise.all([document.fonts.ready, fontLoad]),
+              new Promise(resolve => { fontTimer = setTimeout(resolve, Math.max(0, deadline - Date.now())); })
+            ]);
+          }
+        } catch (e) {
+          console.warn('字体加载未完成，导出将使用可用的后备字体。', e);
+        } finally {
+          clearTimeout(fontTimer);
+        }
+      }
+
+      function computeExportScale() {
+        const dpr = window.devicePixelRatio || 1;
+        if (isFirefox()) {
+          return Math.min(3, Math.max(2, dpr * 1.2));
+        }
+        return Math.min(4, Math.max(2.8, dpr * 1.8));
+      }
+
+      function revokeResultUrl() {
+        if (resultObjectUrl) {
+          try { URL.revokeObjectURL(resultObjectUrl); } catch (e) { }
+          resultObjectUrl = null;
+        }
+      }
+
+      // 自动保存相关
+      const STORAGE_KEY = 'ace_survey_draft';
+      // 使用标签页会话存储：刷新可恢复填写内容，关闭标签页后不再保留。
+      // 清除旧版本保存在 localStorage 中的记录，避免旧数据在关闭标签页后残留。
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {
+        console.warn('无法清除旧版本地填写记录。', e);
+      }
+      const DRAFT_EXPIRY_MS = 3 * 24 * 60 * 60 * 1000;
+      let saveTimer = null;
+      let expiryTimer = null;
+      let autosavePausedUntil = 0;
+
+      function isValidDraftTimestamp(updatedAt) {
+        const now = Date.now();
+        return typeof updatedAt === 'number' && Number.isFinite(updatedAt) &&
+          updatedAt > 0 && updatedAt <= now && now - updatedAt < DRAFT_EXPIRY_MS;
+      }
+
+      function scheduleDraftExpiry(updatedAt) {
+        if (expiryTimer) clearTimeout(expiryTimer);
+        expiryTimer = setTimeout(() => {
+          expiryTimer = null;
+          expireDraftIfNeeded();
+        }, Math.max(0, updatedAt + DRAFT_EXPIRY_MS - Date.now()));
+      }
+
+      function expireDraftIfNeeded() {
+        try {
+          const saved = sessionStorage.getItem(STORAGE_KEY);
+          if (!saved) {
+            if (expiryTimer) clearTimeout(expiryTimer);
+            expiryTimer = null;
+            return false;
+          }
+          const data = JSON.parse(saved);
+          if (data && isValidDraftTimestamp(data.updatedAt)) {
+            scheduleDraftExpiry(data.updatedAt);
+            return false;
+          }
+        } catch (e) {
+          console.warn('无法读取本地填写记录，将清除无效记录。', e);
+        }
+        // 旧记录没有时间戳，无法判断其保存期限，同样视为过期。
+        clearSavedData();
+        resetForm();
+        return true;
+      }
+
+      function saveFormData() {
+        if (expireDraftIfNeeded()) return;
+        try {
+          const data = {
+            ace_type: document.querySelector('input[name="ace_type"]:checked')?.value || '',
+            ace_type_other: aceTypeOtherTextarea.value,
+            age: ageInput.value,
+            q3: q3Input.value,
+            q4: q4Input.value,
+            q5: q5Input.value,
+            sex_attitude: document.querySelector('input[name="sex_attitude"]:checked')?.value || '',
+            q6: q6Textarea.value,
+            q7: q7Input.value,
+            q8: q8Input.value,
+            updatedAt: Date.now()
+          };
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          scheduleDraftExpiry(data.updatedAt);
+        } catch (e) {
+          console.error('保存失败:', e);
+        }
+      }
+
+      function loadFormData() {
+        try {
+          const saved = sessionStorage.getItem(STORAGE_KEY);
+          if (!saved) return;
+          const data = JSON.parse(saved);
+          if (!data || !isValidDraftTimestamp(data.updatedAt)) {
+            clearSavedData();
+            return;
+          }
+          scheduleDraftExpiry(data.updatedAt);
+
+          if (data.ace_type) {
+            const radio = document.querySelector(`input[name="ace_type"][value="${data.ace_type}"]`);
+            if (radio) {
+              radio.checked = true;
+              toggleOtherField();
+            }
+          }
+          if (data.ace_type_other) aceTypeOtherTextarea.value = data.ace_type_other;
+          if (data.age) ageInput.value = data.age;
+          if (data.q3) q3Input.value = data.q3;
+          if (data.q4) q4Input.value = data.q4;
+          if (data.q5) q5Input.value = data.q5;
+          if (data.sex_attitude) {
+            const radio = document.querySelector(`input[name="sex_attitude"][value="${data.sex_attitude}"]`);
+            if (radio) radio.checked = true;
+          }
+          if (data.q6) q6Textarea.value = data.q6;
+          if (data.q7) q7Input.value = data.q7;
+          if (data.q8) q8Input.value = data.q8;
+
+          // 重新计算文本框高度
+          textareas.forEach(autoResizeTextarea);
+        } catch (e) {
+          console.error('加载失败:', e);
+          clearSavedData();
+        }
+      }
+
+      function clearSavedData() {
+        try {
+          if (saveTimer) {
+            clearTimeout(saveTimer);
+            saveTimer = null;
+          }
+          if (expiryTimer) {
+            clearTimeout(expiryTimer);
+            expiryTimer = null;
+          }
+          sessionStorage.removeItem(STORAGE_KEY);
+        } catch (e) {
+          console.error('清除保存失败:', e);
+        }
+      }
+
+      function resetForm() {
+        try {
+          // 重置单选按钮
+          document.querySelectorAll('input[name="ace_type"]').forEach(radio => radio.checked = false);
+          document.querySelectorAll('input[name="sex_attitude"]').forEach(radio => radio.checked = false);
+
+          // 重置文本框和数字输入
+          aceTypeOtherTextarea.value = '';
+          ageInput.value = '';
+          q3Input.value = '';
+          q4Input.value = '';
+          q5Input.value = '';
+          q6Textarea.value = '';
+          q7Input.value = '';
+          q8Input.value = '';
+
+          // 隐藏「其他类型」文本域
+          toggleOtherField();
+
+          // 重新计算文本框高度
+          textareas.forEach(autoResizeTextarea);
+        } catch (e) {
+          console.error('重置表单失败:', e);
+        }
+      }
+
+      function debounceSave() {
+        if (isExporting) return;
+        if (autosavePausedUntil && Date.now() < autosavePausedUntil) return;
+        if (saveTimer) clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveFormData, 500);
+      }
+
+      // 控制「其他类型」文本域的显示/隐藏 (选中other时显示，否则隐藏)
+      function toggleOtherField() {
+        const otherRadio = document.querySelector('input[name="ace_type"][value="other_ace"]');
+        if (otherRadio && otherRadio.checked) {
+          aceTypeOtherTextarea.style.display = 'block';
+          aceTypeOtherTextarea.required = true;
+          aceTypeOtherTextarea.setAttribute('aria-required', 'true');
+          autoResizeTextarea(aceTypeOtherTextarea);
+        } else {
+          aceTypeOtherTextarea.style.display = 'none';
+          aceTypeOtherTextarea.required = false;
+          aceTypeOtherTextarea.removeAttribute('aria-required');
+        }
+      }
+
+      // 为所有ace_type radio添加change事件
+      aceTypeRadios.forEach(radio => {
+        radio.addEventListener('change', function () {
+          toggleOtherField();
+          debounceSave();
+        });
       });
-      el.addEventListener('change', saveDraft);
-    });
+      // 初始状态
+      toggleOtherField();
 
-    document.querySelectorAll('input[name="ace_type"], input[name="sex_attitude"]').forEach((radio) => {
-      radio.addEventListener('change', saveDraft);
-    });
+      // 为所有输入框添加自动保存事件
+      [aceTypeOtherTextarea, ageInput, q3Input, q4Input, q5Input, q6Textarea, q7Input, q8Input].forEach(el => {
+        el.addEventListener('input', debounceSave);
+        el.addEventListener('change', debounceSave);
+      });
+      sexAttitudeRadios.forEach(radio => {
+        radio.addEventListener('change', debounceSave);
+      });
 
-    exportBtn.addEventListener('click', exportImage);
-    loadDraft();
-    resizeTextareas();
+      // 页面加载时恢复未过期的数据，并在页面重新激活时检查期限。
+      loadFormData();
+      window.addEventListener('pageshow', expireDraftIfNeeded);
+      window.addEventListener('focus', expireDraftIfNeeded);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) expireDraftIfNeeded();
+      });
+
+      // ========== 年龄输入框彻底去掉箭头，并严格限制1-99，仅允许数字 ==========
+      // 限制输入：仅允许数字，且值自动约束在 1-99 之间
+      function sanitizeAge(value) {
+        if (value === '' || value === null || value === undefined) return '';
+        let num = parseInt(value, 10);
+        if (isNaN(num)) return '';
+        if (num < 1) num = 1;
+        if (num > 99) num = 99;
+        return num.toString();
+      }
+
+      function handleAgeInput(e) {
+        let raw = e.target.value;
+        // 去除任何非数字字符（保留数字）
+        let cleaned = raw.replace(/[^\d]/g, '');
+        if (cleaned === '') {
+          e.target.value = '';
+          return;
+        }
+        let intVal = parseInt(cleaned, 10);
+        if (isNaN(intVal)) {
+          e.target.value = '';
+          return;
+        }
+        // 限制范围1-99
+        if (intVal < 1) intVal = 1;
+        if (intVal > 99) intVal = 99;
+        e.target.value = intVal;
+      }
+
+      function handleAgeBlur(e) {
+        let val = e.target.value.trim();
+        if (val === '') return;
+        let num = parseInt(val, 10);
+        if (isNaN(num)) {
+          e.target.value = '';
+          return;
+        }
+        if (num < 1) e.target.value = 1;
+        if (num > 99) e.target.value = 99;
+      }
+
+      // 绑定事件（覆盖原生的change，增强限制）
+      ageInput.addEventListener('input', handleAgeInput);
+      ageInput.addEventListener('blur', handleAgeBlur);
+      // 防止键盘上下键改变数值（通过阻止箭头按键的默认行为可选，但隐藏了按钮，上下键依然会增减，为了彻底避免微调，阻止keydown的ArrowUp/ArrowDown）
+      ageInput.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault();
+        }
+      });
+
+      // 原有change限制保留额外安全处理
+      ageInput.addEventListener('change', function () {
+        let val = this.value.trim();
+        if (val === '') return;
+        let num = parseInt(val, 10);
+        if (isNaN(num)) this.value = '';
+        else if (num < 1) this.value = 1;
+        else if (num > 99) this.value = 99;
+      });
+
+      // 合并同一帧内的输入，先统一写入，再测量，避免逐个读写触发重复布局。
+      function autoResizeTextarea(ta) {
+        if (!ta) return;
+        pendingTextareas.add(ta);
+        if (resizeFrame !== null) return;
+        resizeFrame = requestAnimationFrame(() => {
+          resizeFrame = null;
+          const elements = Array.from(pendingTextareas).filter(el => el.style.display !== 'none');
+          pendingTextareas.clear();
+          elements.forEach(el => { el.style.height = 'auto'; });
+          const heights = elements.map(el => Math.min(el.scrollHeight + el.offsetHeight - el.clientHeight, 260));
+          elements.forEach((el, index) => { el.style.height = heights[index] + 'px'; });
+        });
+      }
+
+      textareas.forEach(ta => {
+        ta.addEventListener('input', function () { autoResizeTextarea(this); });
+        autoResizeTextarea(ta);
+      });
+      if (document.fonts && document.fonts.addEventListener) {
+        document.fonts.addEventListener('loadingdone', () => textareas.forEach(autoResizeTextarea));
+      }
+
+      // 获取radio的完整文本（用于Q6，以及其他可能通用，但主要用专门函数）
+      function getRadioFullLabel(name) {
+        const radios = document.querySelectorAll(`input[name="${name}"]`);
+        for (let radio of radios) {
+          if (radio.checked) {
+            const parent = radio.closest('.radio-option');
+            if (parent) {
+              const span = parent.querySelector('.radio-text');
+              return span ? span.innerText.trim() : radio.value;
+            }
+            return radio.value;
+          }
+        }
+        return null;
+      }
+
+      // 获取Q1完整答案
+      function getAceTypeFullAnswer() {
+        const selectedRadio = document.querySelector('input[name="ace_type"]:checked');
+        if (!selectedRadio) return null;
+        const isOther = selectedRadio.value === 'other_ace';
+        const otherText = aceTypeOtherTextarea.value.trim();
+        if (isOther) {
+          const baseLabel = "其他类型";
+          const detail = otherText ? `：${otherText}` : '（未具体说明）';
+          return baseLabel + detail;
+        } else {
+          const parent = selectedRadio.closest('.radio-option');
+          if (parent) {
+            const span = parent.querySelector('.radio-text');
+            return span ? span.innerText.trim() : selectedRadio.value;
+          }
+          return selectedRadio.value;
+        }
+      }
+
+      // 获取Q6完整答案
+      function getSexAttitudeFull() {
+        let attitudeLabel = '';
+        for (let radio of sexAttitudeRadios) {
+          if (radio.checked) {
+            const parent = radio.closest('.radio-option');
+            if (parent) {
+              const span = parent.querySelector('.radio-text');
+              attitudeLabel = span ? span.innerText.trim() : radio.value;
+            } else {
+              attitudeLabel = radio.value;
+            }
+            break;
+          }
+        }
+        const extraText = q6Textarea.value.trim();
+        let result = attitudeLabel ? attitudeLabel : '';
+        if (extraText) {
+          result = result ? `${result}\n\n补充：${extraText}` : `详细描述：${extraText}`;
+        }
+        if (!attitudeLabel && !extraText) return '（未作答）';
+        return result || '（未填写）';
+      }
+
+      function getTextareaValue(elem, fallback = '（未填写）') {
+        const val = elem ? elem.value.trim() : '';
+        return val || fallback;
+      }
+
+      function getAgeFull() {
+        const ageVal = ageInput.value.trim();
+        if (!ageVal) return null;
+        const num = parseInt(ageVal, 10);
+        if (isNaN(num)) return null;
+        if (num < 1 || num > 99) return null;
+        return `${num} 岁`;
+      }
+
+      function getFirstIncompleteQuestion() {
+        const selectedAceType = [...aceTypeRadios].find(radio => radio.checked);
+        if (!selectedAceType) {
+          return { message: '请回答 Q1：选择无性恋谱系类型', target: aceTypeRadios[0] };
+        }
+        if (selectedAceType.value === 'other_ace' && !aceTypeOtherTextarea.value.trim()) {
+          return { message: '请补充说明 Q1 的其他类型', target: aceTypeOtherTextarea };
+        }
+        if (!getAgeFull()) {
+          return { message: '请回答 Q2：填写有效年龄', target: ageInput };
+        }
+
+        const textQuestions = [
+          { number: 'Q3', input: q3Input },
+          { number: 'Q4', input: q4Input },
+          { number: 'Q5', input: q5Input }
+        ];
+        for (const question of textQuestions) {
+          if (!question.input.value.trim()) {
+            return { message: `请回答 ${question.number}`, target: question.input };
+          }
+        }
+
+        const selectedSexAttitude = [...sexAttitudeRadios].find(radio => radio.checked);
+        if (!selectedSexAttitude) {
+          return { message: '请回答 Q6：选择对性行为的态度', target: sexAttitudeRadios[0] };
+        }
+        if (!q7Input.value.trim()) {
+          return { message: '请回答 Q7', target: q7Input };
+        }
+        if (!q8Input.value.trim()) {
+          return { message: '请回答 Q8', target: q8Input };
+        }
+        return null;
+      }
+
+      function goToIncompleteQuestion(question) {
+        if (!question || !question.target) return;
+        const card = question.target.closest('.form-card');
+        if (card) {
+          const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          try {
+            card.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'center' });
+          } catch (e) {
+            card.scrollIntoView();
+          }
+        }
+        setTimeout(() => {
+          try {
+            question.target.focus({ preventScroll: true });
+          } catch (e) {
+            question.target.focus();
+          }
+        }, 320);
+      }
+
+      // 构建卡片数据
+      function buildFullContent() {
+        const q1Text = "Q1 你的无性恋谱系类型是？";
+        const q2Text = "Q2 你的年龄？";
+        const q3Text = "Q3 你是什么时候发现自己是无性恋谱系的？";
+        const q4Text = "Q4 为什么觉得自己是这种类型？";
+        const q5Text = "Q5 谈谈你对无性恋谱系的了解。";
+        const q6Text = "Q6 你对性行为持什么态度？";
+        const q7Text = "Q7 如何看待西方政治正确、白左、女权与 LGBT 运动？";
+        const q8Text = "Q8 如果通过审核，你期待在社群里获得什么体验？";
+
+        const aceAnswer = getAceTypeFullAnswer();
+        const ageAnswer = getAgeFull();
+        const q3Answer = getTextareaValue(q3Input);
+        const q4Answer = getTextareaValue(q4Input);
+        const q5Answer = getTextareaValue(q5Input);
+        const q6Answer = getSexAttitudeFull();
+        const q7Answer = getTextareaValue(q7Input);
+        const q8Answer = getTextareaValue(q8Input);
+
+        if (!aceAnswer) return { error: '请选择无性恋类型' };
+        if (!ageAnswer) return { error: '请填写有效年龄' };
+
+        const items = [
+          { q: q1Text, a: aceAnswer },
+          { q: q2Text, a: ageAnswer },
+          { q: q3Text, a: q3Answer },
+          { q: q4Text, a: q4Answer },
+          { q: q5Text, a: q5Answer },
+          { q: q6Text, a: q6Answer },
+          { q: q7Text, a: q7Answer },
+          { q: q8Text, a: q8Answer }
+        ];
+        return { items, error: null };
+      }
+
+      // 防XSS
+      function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function (m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function (c) {
+          return c;
+        });
+      }
+
+      // 导出卡片的视觉结构与题目内容分离，避免影响表单数据。
+      function renderOutputCard(items) {
+        const outputDiv = document.getElementById('output-card');
+        if (!outputDiv) return;
+        let innerHtml = `
+        <div class="oc-header">
+          <div style="font-size: 32px; margin-bottom: 6px;">🖤🤍💜</div>
+          <div class="oc-title">无性恋社群·基本信息调查问卷</div>
+          <div class="oc-subtitle">自我认同 · 真诚回声</div>
+        </div>
+      `;
+        for (let it of items) {
+          const m = it.q.match(/^(Q\d+)\s*(.*)$/);
+          const qNumHtml = m ? `<span class="oc-qnum">${escapeHtml(m[1])}</span>` : '';
+          const qTextHtml = m ? escapeHtml(m[2]) : escapeHtml(it.q);
+          innerHtml += `
+          <div class="oc-item">
+            <div class="oc-question">${qNumHtml}<span class="oc-qtext">${qTextHtml}</span></div>
+            <div class="oc-answer">${escapeHtml(it.a).replace(/\n/g, '<br>')}</div>
+          </div>
+        `;
+        }
+        innerHtml += `<div class="oc-footer">ACE 光谱 · 拥抱真实自我</div>`;
+        outputDiv.innerHTML = innerHtml;
+      }
+
+      // 稳定滚动（避免软键盘干扰截图）
+      function stabilizeScroll() {
+        if (document.activeElement && (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA')) {
+          document.activeElement.blur();
+        }
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+        }, 10);
+      }
+
+      let isExporting = false;
+
+      async function exportImage() {
+        if (isExporting) {
+          showToast('正在处理中，请稍候...');
+          return;
+        }
+
+        const incompleteQuestion = getFirstIncompleteQuestion();
+        if (incompleteQuestion) {
+          showToast(incompleteQuestion.message);
+          goToIncompleteQuestion(incompleteQuestion);
+          return;
+        }
+
+        isExporting = true;
+        autosavePausedUntil = Date.now() + 5000;
+        if (saveTimer) {
+          clearTimeout(saveTimer);
+          saveTimer = null;
+        }
+        stabilizeScroll();
+
+        const { items, error } = buildFullContent();
+        if (error) {
+          showToast(error);
+          isExporting = false;
+          return;
+        }
+
+        renderOutputCard(items);
+        const cardElement = document.getElementById('output-card');
+        if (!cardElement) {
+          isExporting = false;
+          return;
+        }
+
+        // 准备截图
+        cardElement.style.display = 'block';
+        cardElement.style.position = 'fixed';
+        cardElement.style.left = '-9999px';
+        cardElement.style.top = '0';
+        cardElement.style.width = '400px';
+        cardElement.style.backgroundColor = '#ffffff';
+        cardElement.style.borderRadius = '32px';
+        cardElement.style.boxShadow = '0 0 0 1px #eae2fc';
+
+        loadingOverlay.classList.add('show');
+
+        try {
+          const [html2canvas] = await Promise.all([
+            loadHtml2canvas(),
+            waitForFonts(cardElement.textContent || '')
+          ]);
+          const needExportFix = isFirefox();
+          if (needExportFix) cardElement.classList.add('export-fix');
+          const cardHeight = Math.ceil(cardElement.getBoundingClientRect().height || 0);
+          const maxCanvasDim = 8192;
+          const sizeCap = cardHeight > 0 ? (maxCanvasDim / Math.max(400, cardHeight)) : 1;
+          const exportScale = Math.max(1, Math.min(computeExportScale(), sizeCap));
+
+          const canvas = await new Promise((resolve, reject) => {
+            setTimeout(async () => {
+              try {
+                const result = await html2canvas(cardElement, {
+                  scale: exportScale,
+                  backgroundColor: '#ffffff',
+                  logging: false,
+                  useCORS: false,
+                  width: 400,
+                  windowWidth: 400,
+                });
+                resolve(result);
+              } catch (err) {
+                reject(err);
+              }
+            }, 180);
+          });
+
+          loadingOverlay.classList.remove('show');
+
+          // 重置卡片隐藏
+          cardElement.style.display = 'none';
+          cardElement.classList.remove('export-fix');
+          cardElement.style.position = '';
+          cardElement.style.left = '';
+          cardElement.style.top = '';
+          cardElement.style.width = '';
+          cardElement.style.backgroundColor = '';
+          cardElement.style.borderRadius = '';
+          cardElement.style.boxShadow = '';
+
+          revokeResultUrl();
+
+          let imgUrl = '';
+          try {
+            if (canvas.toBlob) {
+              const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1));
+              if (blob) {
+                imgUrl = URL.createObjectURL(blob);
+                resultObjectUrl = imgUrl;
+              }
+            }
+          } catch (e) { }
+          if (!imgUrl) imgUrl = canvas.toDataURL('image/png');
+
+          try {
+            const link = document.createElement('a');
+            link.download = 'ace_community_survey.png';
+            link.href = imgUrl;
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+          } catch (e) { }
+          setTimeout(revokeResultUrl, 8000);
+
+          clearSavedData();
+          resetForm();
+
+          showToast('图片已生成');
+        } catch (err) {
+          console.error(err);
+          loadingOverlay.classList.remove('show');
+          try {
+            cardElement.style.display = 'none';
+            cardElement.classList.remove('export-fix');
+            cardElement.style.position = '';
+            cardElement.style.left = '';
+            cardElement.style.top = '';
+          } catch (e) { }
+          showToast('生成失败，可稍后重试');
+        } finally {
+          isExporting = false;
+        }
+      }
+
+      exportBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        exportImage();
+      });
+
+      // 额外处理：确保年龄字段不能超出范围，且不能有E等无效字符
+      ageInput.addEventListener('beforeinput', function (e) {
+        if (e.inputType === 'insertText' && e.data) {
+          if (!/^\d+$/.test(e.data) && e.data !== '') {
+            e.preventDefault();
+          }
+        }
+      });
+    })();
   </script>
 </body>
+
 </html>
