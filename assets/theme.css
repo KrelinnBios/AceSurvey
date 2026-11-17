@@ -20,11 +20,14 @@
   -webkit-appearance: none !important;
   appearance: none !important;
   font: inherit !important;
-  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease !important;
 }
 
-.theme-toggle:hover {
-  transform: rotate(-18deg) scale(1.05) !important;
+.theme-toggle:hover,
+.theme-toggle:active {
+  background: #f3edff !important;
+  color: #6d28d9 !important;
+  border-color: rgba(124, 58, 237, 0.35) !important;
 }
 
 .theme-toggle:focus-visible {
@@ -48,6 +51,13 @@
   color: #ecebf0 !important;
   border-color: rgba(151, 129, 190, 0.25) !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+:root[data-theme="dark"] .theme-toggle:hover,
+:root[data-theme="dark"] .theme-toggle:active {
+  background: #31293e !important;
+  color: #e1d4ff !important;
+  border-color: rgba(170, 139, 232, 0.46) !important;
 }
 
 :root[data-theme="dark"] .theme-toggle:focus-visible {
